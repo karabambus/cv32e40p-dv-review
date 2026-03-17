@@ -292,7 +292,6 @@ gen: $(ACT4_PKG)
 	@echo "* Generating ACT4.0 tests..."
 	@$(MAKE) -C $(ACT4_PKG) \
 		EXTENSIONS=I,M,C,Zca,Zicsr,Zifencei \
-		CV_SW_MARCH=rv32imc_zicsr_zifencei \
 		CONFIG_FILES=config/cores/cve2/cv32e20/test_config.yaml
 	@echo "* Tests generated in: $(certification_PROGRAM_PATH)"
 

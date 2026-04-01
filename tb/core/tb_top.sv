@@ -184,100 +184,30 @@ module tb_top
 	$display("\n[%s] @ t=%0t: simulation ending...", id, $time);
     end
 
-    // Core instantiation — cv32e40p_tb_wrapper (v1.8.3) or cv32e40p_wrapper (v1.0.0)
-    // Selected at compile time via +define+CV32E40P_V100 for v1.0.0 configs.
-`ifdef CV32E40P_V100
-    // v1.0.0: bhv wrapper uses PULP_* parameter names and exposes raw APU ports
-    cv32e40p_wrapper
-      #(.PULP_XPULP      (0),
-        .PULP_CLUSTER    (0),
-        .FPU             (FPU_EN),
-        .PULP_ZFINX      (0),
-        .NUM_MHPMCOUNTERS(1))
-    cv32e40p_tb_wrapper_i
-      (.clk_i               (core_clk),
-       .rst_ni              (core_rst_n),
-       .pulp_clock_en_i     (1'b1),
-       .scan_cg_en_i        (1'b0),
-       .boot_addr_i         (boot_addr),
-       .mtvec_addr_i        (boot_addr),
-       .dm_halt_addr_i      (32'h1A110800),
-       .hart_id_i           (32'h0),
-       .dm_exception_addr_i (32'h1A110808),
-       .instr_req_o         (instr_req),
-       .instr_gnt_i         (instr_gnt),
-       .instr_rvalid_i      (instr_rvalid),
-       .instr_addr_o        (instr_addr),
-       .instr_rdata_i       (instr_rdata),
-       .data_req_o          (data_req),
-       .data_gnt_i          (data_gnt),
-       .data_rvalid_i       (data_rvalid),
-       .data_we_o           (data_we),
-       .data_be_o           (data_be),
-       .data_addr_o         (data_addr),
-       .data_wdata_o        (data_wdata),
-       .data_rdata_i        (data_rdata),
-       // APU tie-offs (FPU=0 so APU is unused; v1.8.3 wraps FPU internally)
-       .apu_req_o           (),
-       .apu_gnt_i           (1'b0),
-       .apu_operands_o      (),
-       .apu_op_o            (),
-       .apu_flags_o         (),
-       .apu_rvalid_i        (1'b0),
-       .apu_result_i        (32'b0),
-       .apu_flags_i         ('0),
-       .irq_i               (irq),
-       .irq_ack_o           (irq_ack),
-       .irq_id_o            (irq_id),
-       .debug_req_i         (1'b0),
-       .debug_havereset_o   (),
-       .debug_running_o     (),
-       .debug_halted_o      (),
-       .fetch_enable_i      (1'b1),
-       .core_sleep_o        ());
-`else
-    // v1.8.3: bhv wrapper uses COREV_* parameter names
-    cv32e40p_tb_wrapper
-      #(.COREV_PULP      (0),
-        .COREV_CLUSTER   (0),
-        .FPU             (FPU_EN),
-        .FPU_ADDMUL_LAT  (0),
-        .FPU_OTHERS_LAT  (0),
-        .ZFINX           (0),
-        .NUM_MHPMCOUNTERS(1))
-    cv32e40p_tb_wrapper_i
-      (.clk_i               (core_clk),
-       .rst_ni              (core_rst_n),
-       .pulp_clock_en_i     (1'b1),
-       .scan_cg_en_i        (1'b0),
-       .boot_addr_i         (boot_addr),
-       .mtvec_addr_i        (boot_addr),
-       .dm_halt_addr_i      (32'h1A110800),
-       .hart_id_i           (32'h0),
-       .dm_exception_addr_i (32'h1A110808),
-       .instr_req_o         (instr_req),
-       .instr_gnt_i         (instr_gnt),
-       .instr_rvalid_i      (instr_rvalid),
-       .instr_addr_o        (instr_addr),
-       .instr_rdata_i       (instr_rdata),
-       .data_req_o          (data_req),
-       .data_gnt_i          (data_gnt),
-       .data_rvalid_i       (data_rvalid),
-       .data_we_o           (data_we),
-       .data_be_o           (data_be),
-       .data_addr_o         (data_addr),
-       .data_wdata_o        (data_wdata),
-       .data_rdata_i        (data_rdata),
-       .irq_i               (irq),
-       .irq_ack_o           (irq_ack),
-       .irq_id_o            (irq_id),
-       .debug_req_i         (1'b0),
-       .debug_havereset_o   (),
-       .debug_running_o     (),
-       .debug_halted_o      (),
-       .fetch_enable_i      (1'b1),
-       .core_sleep_o        ());
-`endif
+    // DUT — version selected at compile time inside cv32e40p_dut_wrap
+    cv32e40p_dut_wrap
+      #(.INSTR_RDATA_WIDTH (INSTR_RDATA_WIDTH),
+        .FPU_EN            (FPU_EN))
+    dut_i
+      (.clk_i          (core_clk),
+       .rst_ni         (core_rst_n),
+       .boot_addr_i    (boot_addr),
+       .instr_req_o    (instr_req),
+       .instr_gnt_i    (instr_gnt),
+       .instr_rvalid_i (instr_rvalid),
+       .instr_addr_o   (instr_addr),
+       .instr_rdata_i  (instr_rdata),
+       .data_req_o     (data_req),
+       .data_gnt_i     (data_gnt),
+       .data_rvalid_i  (data_rvalid),
+       .data_addr_o    (data_addr),
+       .data_we_o      (data_we),
+       .data_be_o      (data_be),
+       .data_wdata_o   (data_wdata),
+       .data_rdata_i   (data_rdata),
+       .irq_i          (irq),
+       .irq_ack_o      (irq_ack),
+       .irq_id_o       (irq_id));
 
     // mm_ram: memory mapped virtual peripheral and RAM model
     mm_ram

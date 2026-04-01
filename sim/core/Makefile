@@ -119,6 +119,7 @@ TBSRC_PKG   := $(TBSRC_CORE)/tb_riscv/include/perturbation_defines.sv
 
 # Verilator TB sources (no UVM/random-stall modules — guarded by `ifndef VERILATOR)
 TBSRC_VERI  := $(TBSRC_CORE)/tb_top.sv \
+               $(TBSRC_CORE)/cv32e40p_dut_wrap.sv \
                $(TBSRC_CORE)/tb_riscv/riscv_rvalid_stall.sv \
                $(TBSRC_CORE)/tb_riscv/riscv_gnt_stall.sv \
                $(TBSRC_CORE)/mm_ram.sv \

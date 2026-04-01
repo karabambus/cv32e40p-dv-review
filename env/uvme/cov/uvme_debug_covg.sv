@@ -25,7 +25,7 @@ class uvme_debug_covg extends uvm_component;
     /*
     * Class members
     */
-    uvme_cv32e20_cntxt_c  cntxt;
+    uvme_cv32e40p_cntxt_c  cntxt;
 
 
     `uvm_component_utils(uvme_debug_covg);
@@ -42,11 +42,11 @@ class uvme_debug_covg extends uvm_component;
     */
 
   // TODO: this covergroup is from the CV32E40P and is probably meaningless in
-  // the CV32E20 contenxt.  Needs to be reviewed.
+  // the CV32E40P contenxt.  Needs to be reviewed.
   //covergroup cg_debug_mode_ext ;
   //        `per_instance_fcov
   //        state: coverpoint cntxt.debug_cov_vif.mon_cb.ctrl_fsm_cs{
-  //            ignore_bins ignore_pulp_states = {cv32e20_pkg::ELW_EXE, cv32e20_pkg::IRQ_FLUSH_ELW, cv32e20_pkg::DECODE_HWLOOP};
+  //            ignore_bins ignore_pulp_states = {cv32e40p_pkg::ELW_EXE, cv32e40p_pkg::IRQ_FLUSH_ELW, cv32e40p_pkg::DECODE_HWLOOP};
   //        }
   //endgroup : cg_debug_mode_ext
 
@@ -372,11 +372,11 @@ class uvme_debug_covg extends uvm_component;
 
     // Cover that we get a debug_req_i while in RESET state
     // TODO: this covergroup is from the CV32E40P and is probably meaningless in
-    // the CV32E20 contenxt.  Needs to be reviewed.
+    // the CV32E40P contenxt.  Needs to be reviewed.
     //covergroup cg_debug_at_reset;
     //    `per_instance_fcov
     //    state : coverpoint cntxt.debug_cov_vif.mon_cb.ctrl_fsm_cs {
-    //        bins reset= {cv32e20_pkg::RESET};
+    //        bins reset= {cv32e40p_pkg::RESET};
     //    }
     //     dbg : coverpoint cntxt.debug_cov_vif.mon_cb.debug_req_i {
     //        bins active= {1'b1};
@@ -462,7 +462,7 @@ endfunction : new
 function void uvme_debug_covg::build_phase(uvm_phase phase);
     super.build_phase(phase);
 
-    void'(uvm_config_db#(uvme_cv32e20_cntxt_c)::get(this, "", "cntxt", cntxt));
+    void'(uvm_config_db#(uvme_cv32e40p_cntxt_c)::get(this, "", "cntxt", cntxt));
     if (cntxt == null) begin
         `uvm_fatal("DEBUGCOVG", "No cntxt object passed to model");
     end

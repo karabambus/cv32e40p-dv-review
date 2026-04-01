@@ -47,14 +47,14 @@ SECTIONS
   } >dbg
 
   /* CORE-V: we want a fixed entry point */
-  PROVIDE(__boot_address = 0x4000);
+  PROVIDE(__boot_address = 0x100);
   PROVIDE(_debugger_exception_start = 0x1A140000);
 
 
   /* CORE-V: crt0 init code */
   .init (ORIGIN(ram)):
   {
-    . = 0x4000;
+    . = 0x100;
     KEEP (*(SORT_NONE(.init)))
     KEEP (*(.text.start))
   } >ram

@@ -34,5 +34,5 @@ ${RVVI_HOME}/source/host/rvvi/rvviApiPkg.sv
 ${RVVI_HOME}/source/host/rvvi/rvviTrace.sv
 
 // ImperasDV test bench wrapper
-${TBSRC_HOME}/uvmt/uvmt_cv32e20_imperas_dv_wrap.sv
+${TBSRC_HOME}/uvmt/uvmt_cv32e40p_imperas_dv_wrap.sv
 

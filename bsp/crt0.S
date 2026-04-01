@@ -29,7 +29,7 @@ _start:
 
 /* set vector table address */
 	la a0, __vector_start // TODO: why is this __vector_start and not vector_table?
-	ori a0, a0, 1         // vector mode is always 'vectored' for CV32E20
+	ori a0, a0, 1         // vector mode is always 'vectored' for CV32E40P
 	csrw mtvec, a0
 
 /* clear the bss segment */

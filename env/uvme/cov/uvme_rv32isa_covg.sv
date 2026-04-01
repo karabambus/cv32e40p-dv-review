@@ -41,7 +41,7 @@
 class uvme_rv32isa_covg extends uvm_component;
 
 
-    uvme_cv32e20_cntxt_c  cntxt;
+    uvme_cv32e40p_cntxt_c  cntxt;
 
     uvm_analysis_port#(uvme_rv32isa_covg_trn_c) ap;
 
@@ -124,7 +124,7 @@ class uvme_rv32isa_covg extends uvm_component;
         endcase
     endfunction
 
-// The following CSRs are not included as they do not exist in CV32E20
+// The following CSRs are not included as they do not exist in CV32E40P
 // because NUM_HPMCOUNTERS is set to 1:
 //    mhpmevent4,    ..., mhpmevent4,
 //    mhpmcounter4,  ..., mhpmcounter31,
@@ -250,7 +250,7 @@ class uvme_rv32isa_covg extends uvm_component;
             end
             "marchid"      : return csr_name_t'(marchid);
             "mimpid"       : return csr_name_t'(mimpid);
-            // These CSRs are not supported by CV32E20
+            // These CSRs are not supported by CV32E40P
             //"mcounteren"   : return csr_name_t'(mcounteren);
             //"mideleg"      : return csr_name_t'(mideleg);
             //"medeleg"      : return csr_name_t'(medeleg);
@@ -899,7 +899,7 @@ class uvme_rv32isa_covg extends uvm_component;
 //Coverage of Std Extension for Integer Multiplication & Division, Version 2.0
 ///////////////////////////////////////////////////////////////////////////////
 // Note : there is no coverage for sequence of MULH[[S]U] and MUL instructions
-//        because the CV32E20 does not implement fused instructions.
+//        because the CV32E40P does not implement fused instructions.
 
     covergroup mul_cg with function sample(ins_t ins);
         `per_instance_fcov
@@ -1025,7 +1025,7 @@ class uvme_rv32isa_covg extends uvm_component;
         }
         cp_csr   : coverpoint get_csr_name(ins.ops[1].val, ins.ops[1].key, "csrrci") {
           // RM does not emit coverage transactions for illegal instructions and
-          // CV32E20 treats csrrci rd, ro_csrs, zimm as an illegal instruction
+          // CV32E40P treats csrrci rd, ro_csrs, zimm as an illegal instruction
           ignore_bins ro_csrs = {mhartid, mimpid, mvendorid};
         }
         cp_zimm  : coverpoint get_imm(ins.ops[2].val, "csrrci") {
@@ -1063,7 +1063,7 @@ class uvme_rv32isa_covg extends uvm_component;
         }
         cp_csr   : coverpoint get_csr_name(ins.ops[1].val, ins.ops[1].key, "csrrsi") {
           // RM does not emit coverage transactions for illegal instructions and
-          // CV32E20 treats csrrsi rd, ro_csrs, zimm as an illegal instruction
+          // CV32E40P treats csrrsi rd, ro_csrs, zimm as an illegal instruction
           ignore_bins ro_csrs = {mhartid, mimpid, mvendorid};
         }
         cp_zimm  : coverpoint get_imm(ins.ops[2].val, "csrrsi") {
@@ -1079,7 +1079,7 @@ class uvme_rv32isa_covg extends uvm_component;
         }
         cp_csr   : coverpoint get_csr_name(ins.ops[1].val, ins.ops[1].key, "csrrw") {
           // RM does not emit coverage transactions for illegal instructions and
-          // CV32E20 treats csrrw rd, ro_csrs, zimm as an illegal instruction
+          // CV32E40P treats csrrw rd, ro_csrs, zimm as an illegal instruction
           ignore_bins ro_csrs = {mhartid, mimpid, mvendorid};
         }
         cp_rs1   : coverpoint get_gpr_name(ins.ops[2].val, ins.ops[2].key, "csrrw") {
@@ -1094,7 +1094,7 @@ class uvme_rv32isa_covg extends uvm_component;
         }
         cp_csr   : coverpoint get_csr_name(ins.ops[1].val, ins.ops[1].key, "csrrwi") {
           // RM does not emit coverage transactions for illegal instructions and
-          // CV32E20 treats csrrwi rd, ro_csrs, zimm as an illegal instruction
+          // CV32E40P treats csrrwi rd, ro_csrs, zimm as an illegal instruction
           ignore_bins ro_csrs = {mhartid, mimpid, mvendorid};
         }
         cp_zimm  : coverpoint get_imm(ins.ops[2].val, "csrrwi") {
@@ -1538,7 +1538,7 @@ class uvme_rv32isa_covg extends uvm_component;
     function void build_phase(uvm_phase phase);
         super.build_phase(phase);
 
-        void'(uvm_config_db#(uvme_cv32e20_cntxt_c)::get(this, "", "cntxt", cntxt));
+        void'(uvm_config_db#(uvme_cv32e40p_cntxt_c)::get(this, "", "cntxt", cntxt));
         if (cntxt == null) begin
             `uvm_fatal("RV32ISACOVG", "No cntxt object passed to model");
         end

@@ -2,9 +2,9 @@
 # Copyright 2025 Eclipse Foundation
 # SPDX-License-Identifier: Apache-2.0 WITH SHL-2.1
 
-# Makefile for the CV32E20 "Board Support Package".
+# Makefile for the CV32E40P "Board Support Package".
 # The "BSP" is the bare-metal programming environment
-# for the CV32E20 in it's testbench.
+# for the CV32E40P in it's testbench.
 
 BSP_DIR           = $(PWD)
 CV_SW_TOOLCHAIN  ?= /opt/riscv

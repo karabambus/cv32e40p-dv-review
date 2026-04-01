@@ -104,40 +104,40 @@ EMB_DEBUG_ARG       = $(if $(filter $(YES_VALS),$(EMB_DEBUG)),YES,NO)
 
 # UVM Environment
 # OLD
-#export DV_UVMT_PATH             = $(CV32E20_DV)/$(CV_CORE_LC)/tb/uvmt
-#export DV_UVME_PATH             = $(CV32E20_DV)/$(CV_CORE_LC)/env/uvme
-#export DV_UVML_HRTBT_PATH       = $(CV32E20_DV)/lib/uvm_libs/uvml_hrtbt
-#export DV_UVMA_CORE_CNTRL_PATH  = $(CV32E20_DV)/lib/uvm_agents/uvma_core_cntrl
-#export DV_UVMA_ISACOV_PATH      = $(CV32E20_DV)/lib/uvm_agents/uvma_isacov
-#export DV_UVMA_RVFI_PATH        = $(CV32E20_DV)/lib/uvm_agents/uvma_rvfi
-#export DV_UVMA_RVVI_PATH        = $(CV32E20_DV)/lib/uvm_agents/uvma_rvvi
-#export DV_UVMA_RVVI_OVPSIM_PATH = $(CV32E20_DV)/lib/uvm_agents/uvma_rvvi_ovpsim
-#export DV_UVMA_CLKNRST_PATH     = $(CV32E20_DV)/lib/uvm_agents/uvma_clknrst
-#export DV_UVMA_INTERRUPT_PATH   = $(CV32E20_DV)/lib/uvm_agents/uvma_interrupt
-#export DV_UVMA_DEBUG_PATH       = $(CV32E20_DV)/lib/uvm_agents/uvma_debug
-#export DV_UVMA_PMA_PATH         = $(CV32E20_DV)/lib/uvm_agents/uvma_pma
-#export DV_UVMA_OBI_MEMORY_PATH  = $(CV32E20_DV)/lib/uvm_agents/uvma_obi_memory
-#export DV_UVMA_FENCEI_PATH      = $(CV32E20_DV)/lib/uvm_agents/uvma_fencei
-#export DV_UVML_TRN_PATH         = $(CV32E20_DV)/lib/uvm_libs/uvml_trn
-#export DV_UVML_LOGS_PATH        = $(CV32E20_DV)/lib/uvm_libs/uvml_logs
-#export DV_UVML_SB_PATH          = $(CV32E20_DV)/lib/uvm_libs/uvml_sb
-#export DV_UVML_MEM_PATH         = $(CV32E20_DV)/lib/uvm_libs/uvml_mem
+#export DV_UVMT_PATH             = $(CV32E40P_DV)/$(CV_CORE_LC)/tb/uvmt
+#export DV_UVME_PATH             = $(CV32E40P_DV)/$(CV_CORE_LC)/env/uvme
+#export DV_UVML_HRTBT_PATH       = $(CV32E40P_DV)/lib/uvm_libs/uvml_hrtbt
+#export DV_UVMA_CORE_CNTRL_PATH  = $(CV32E40P_DV)/lib/uvm_agents/uvma_core_cntrl
+#export DV_UVMA_ISACOV_PATH      = $(CV32E40P_DV)/lib/uvm_agents/uvma_isacov
+#export DV_UVMA_RVFI_PATH        = $(CV32E40P_DV)/lib/uvm_agents/uvma_rvfi
+#export DV_UVMA_RVVI_PATH        = $(CV32E40P_DV)/lib/uvm_agents/uvma_rvvi
+#export DV_UVMA_RVVI_OVPSIM_PATH = $(CV32E40P_DV)/lib/uvm_agents/uvma_rvvi_ovpsim
+#export DV_UVMA_CLKNRST_PATH     = $(CV32E40P_DV)/lib/uvm_agents/uvma_clknrst
+#export DV_UVMA_INTERRUPT_PATH   = $(CV32E40P_DV)/lib/uvm_agents/uvma_interrupt
+#export DV_UVMA_DEBUG_PATH       = $(CV32E40P_DV)/lib/uvm_agents/uvma_debug
+#export DV_UVMA_PMA_PATH         = $(CV32E40P_DV)/lib/uvm_agents/uvma_pma
+#export DV_UVMA_OBI_MEMORY_PATH  = $(CV32E40P_DV)/lib/uvm_agents/uvma_obi_memory
+#export DV_UVMA_FENCEI_PATH      = $(CV32E40P_DV)/lib/uvm_agents/uvma_fencei
+#export DV_UVML_TRN_PATH         = $(CV32E40P_DV)/lib/uvm_libs/uvml_trn
+#export DV_UVML_LOGS_PATH        = $(CV32E40P_DV)/lib/uvm_libs/uvml_logs
+#export DV_UVML_SB_PATH          = $(CV32E40P_DV)/lib/uvm_libs/uvml_sb
+#export DV_UVML_MEM_PATH         = $(CV32E40P_DV)/lib/uvm_libs/uvml_mem
 #
-#export DV_UVMC_RVFI_SCOREBOARD_PATH      = $(CV32E20_DV)/lib/uvm_components/uvmc_rvfi_scoreboard/
-#export DV_UVMC_RVFI_REFERENCE_MODEL_PATH = $(CV32E20_DV)/lib/uvm_components/uvmc_rvfi_reference_model/
+#export DV_UVMC_RVFI_SCOREBOARD_PATH      = $(CV32E40P_DV)/lib/uvm_components/uvmc_rvfi_scoreboard/
+#export DV_UVMC_RVFI_REFERENCE_MODEL_PATH = $(CV32E40P_DV)/lib/uvm_components/uvmc_rvfi_reference_model/
 #
-#export DV_OVPM_HOME             = $(CV32E20_DV)/vendor_lib/imperas
+#export DV_OVPM_HOME             = $(CV32E40P_DV)/vendor_lib/imperas
 #export DV_OVPM_MODEL            = $(DV_OVPM_HOME)/imperas_DV_COREV
 #
 #export DV_OVPM_DESIGN           = $(DV_OVPM_HOME)/design
 #
-#export DV_SVLIB_PATH            = $(CV32E20_DV)/$(CV_CORE_LC)/vendor_lib/verilab
+#export DV_SVLIB_PATH            = $(CV32E40P_DV)/$(CV_CORE_LC)/vendor_lib/verilab
 #
 #DV_UVMT_SRCS                  = $(wildcard $(DV_UVMT_PATH)/*.sv))
 
 # NEW NEW NEW!!!
-export DV_UVMT_PATH             = $(CV32E20_DV)/tb/uvmt
-export DV_UVME_PATH             = $(CV32E20_DV)/env/uvme
+export DV_UVMT_PATH             = $(CV32E40P_DV)/tb/uvmt
+export DV_UVME_PATH             = $(CV32E40P_DV)/env/uvme
 export DV_UVML_HRTBT_PATH       = $(CV_VERIF_PKG)/lib/uvm_libs/uvml_hrtbt
 export DV_UVMA_CORE_CNTRL_PATH  = $(CV_VERIF_PKG)/lib/uvm_agents/uvma_core_cntrl
 export DV_UVMA_ISACOV_PATH      = $(CV_VERIF_PKG)/lib/uvm_agents/uvma_isacov
@@ -163,7 +163,7 @@ export DV_OVPM_MODEL            = $(DV_OVPM_HOME)/imperas_DV_COREV
 
 export DV_OVPM_DESIGN           = $(DV_OVPM_HOME)/design
 
-export DV_SVLIB_PATH            = $(CV32E20_DV)/vendor_lib/verilab
+export DV_SVLIB_PATH            = $(CV32E40P_DV)/vendor_lib/verilab
 
 DV_UVMT_SRCS                  = $(wildcard $(DV_UVMT_PATH)/*.sv))
 
@@ -173,19 +173,19 @@ UVM_TEST_NAME ?= uvmt_$(CV_CORE_LC)_general_purpose_test_c
 TEST_UVM_TEST ?= $(UVM_TEST_NAME)
 
 # Google's random instruction generator
-RISCVDV_PKG         := $(CV32E20_DV)/$(CV_CORE_LC)/vendor_lib/google/riscv-dv
-COREVDV_PKG         := $(CV32E20_DV)/lib/corev-dv
-CV_CORE_COREVDV_PKG := $(CV32E20_DV)/$(CV_CORE_LC)/env/corev-dv
+RISCVDV_PKG         := $(CV32E40P_DV)/$(CV_CORE_LC)/vendor_lib/google/riscv-dv
+COREVDV_PKG         := $(CV32E40P_DV)/lib/corev-dv
+CV_CORE_COREVDV_PKG := $(CV32E40P_DV)/$(CV_CORE_LC)/env/corev-dv
 export RISCV_DV_ROOT         = $(RISCVDV_PKG)
 export COREV_DV_ROOT         = $(COREVDV_PKG)
 export CV_CORE_COREV_DV_ROOT = $(CV_CORE_COREVDV_PKG)
 
 # RISC-V Foundation's RISC-V Compliance Test-suite
-COMPLIANCE_PKG := $(CV32E20_DV)/$(CV_CORE_LC)/vendor_lib/riscv/riscv-compliance
+COMPLIANCE_PKG := $(CV32E40P_DV)/$(CV_CORE_LC)/vendor_lib/riscv/riscv-compliance
 
 # EMBench benchmarking suite
-EMBENCH_PKG    := $(CV32E20_DV)/$(CV_CORE_LC)/vendor_lib/embench
-EMBENCH_TESTS  := $(CV32E20_DV)/$(CV_CORE_LC)/tests/programs/embench
+EMBENCH_PKG    := $(CV32E40P_DV)/$(CV_CORE_LC)/vendor_lib/embench
+EMBENCH_TESTS  := $(CV32E40P_DV)/$(CV_CORE_LC)/tests/programs/embench
 
 # Disassembler
 DPI_DASM_PKG               := $(CV_VERIF_PKG)/lib/dpi_dasm
@@ -196,20 +196,20 @@ export DPI_DASM_ROOT        = $(DPI_DASM_PKG)
 export DPI_DASM_SPIKE_ROOT  = $(DPI_DASM_SPIKE_PKG)
 
 # TB source files for the CV32E core
-#TBSRC_HOME  := $(CV32E20_DV)/$(CV_CORE_LC)/tb
-TBSRC_HOME  := $(CV32E20_DV)/tb
+#TBSRC_HOME  := $(CV32E40P_DV)/$(CV_CORE_LC)/tb
+TBSRC_HOME  := $(CV32E40P_DV)/tb
 TBSRC_TOP   := $(TBSRC_HOME)/uvmt/uvmt_$(CV_CORE_LC)_tb.sv
-#export TBSRC_HOME = $(CV32E20_DV)/$(CV_CORE_LC)/tb
-export TBSRC_HOME = $(CV32E20_DV)/tb
+#export TBSRC_HOME = $(CV32E40P_DV)/$(CV_CORE_LC)/tb
+export TBSRC_HOME = $(CV32E40P_DV)/tb
 
-SIM_LIBS    := $(CV32E20_DV)/lib/sim_libs
+SIM_LIBS    := $(CV32E40P_DV)/lib/sim_libs
 
 RTLSRC_VLOG_TB_TOP	:= $(basename $(notdir $(TBSRC_TOP)))
 RTLSRC_VOPT_TB_TOP	:= $(addsuffix _vopt, $(RTLSRC_VLOG_TB_TOP))
 
 # RTL source files for the CV32E core
 # DESIGN_RTL_DIR is used by CV32E40P_MANIFEST file
-CV_CORE_PKG          := $(CV32E20_DV)/core-v-cores/$(CV_CORE_LC)
+CV_CORE_PKG          := $(CV32E40P_DV)/core-v-cores/$(CV_CORE_LC)
 CV_CORE_MANIFEST     := $(CV_CORE_PKG)/$(CV_CORE_LC)_manifest.flist
 export DESIGN_RTL_DIR = $(CV_CORE_PKG)/rtl
 
@@ -217,16 +217,16 @@ RTLSRC_HOME   := $(CV_CORE_PKG)/rtl
 RTLSRC_INCDIR := $(RTLSRC_HOME)/include
 
 # CORE-V-VERIF
-#CV_VERIF_PKG        := $(CV32E20_DV)/$(CV_CORE_LC)/vendor_lib/openhwgroup_core-v-verif
-#export CV_VERIF_PKG  = $(CV32E20_DV)/$(CV_CORE_LC)/vendor_lib/openhwgroup_core-v-verif
-CV_VERIF_PKG        := $(CV32E20_DV)/vendor_lib/openhwgroup_core-v-verif
-export CV_VERIF_PKG  = $(CV32E20_DV)/vendor_lib/openhwgroup_core-v-verif
+#CV_VERIF_PKG        := $(CV32E40P_DV)/$(CV_CORE_LC)/vendor_lib/openhwgroup_core-v-verif
+#export CV_VERIF_PKG  = $(CV32E40P_DV)/$(CV_CORE_LC)/vendor_lib/openhwgroup_core-v-verif
+CV_VERIF_PKG        := $(CV32E40P_DV)/vendor_lib/openhwgroup_core-v-verif
+export CV_VERIF_PKG  = $(CV32E40P_DV)/vendor_lib/openhwgroup_core-v-verif
 
 # RVVI
-#RVVI_HOME             := $(CV32E20_DV)/$(CV_CORE_LC)/vendor_lib/riscv-verification/RVVI
-#export RVVI_HOME       = $(CV32E20_DV)/$(CV_CORE_LC)/vendor_lib/riscv-verification/RVVI
-RVVI_HOME             := $(CV32E20_DV)/vendor_lib/riscv-verification/RVVI
-export RVVI_HOME       = $(CV32E20_DV)/vendor_lib/riscv-verification/RVVI
+#RVVI_HOME             := $(CV32E40P_DV)/$(CV_CORE_LC)/vendor_lib/riscv-verification/RVVI
+#export RVVI_HOME       = $(CV32E40P_DV)/$(CV_CORE_LC)/vendor_lib/riscv-verification/RVVI
+RVVI_HOME             := $(CV32E40P_DV)/vendor_lib/riscv-verification/RVVI
+export RVVI_HOME       = $(CV32E40P_DV)/vendor_lib/riscv-verification/RVVI
 RVVI_STUB             := $(RVVI_HOME)/../stubs
 export RVVI_STUB       = $(RVVI_HOME)/../stubs
 RVVI_IMPERASDV        := $(RVVI_HOME)/source/host/rvvi
@@ -252,7 +252,7 @@ endif
 # Common Makefile:
 #    - Core Firmware and the RISCV GCC Toolchain (SDK)
 #    - Variables for RTL dependencies
-include $(CV32E20_DV)/mk/Common.mk
+include $(CV32E40P_DV)/mk/Common.mk
 ###############################################################################
 # Clone core RTL and DV dependencies
 clone_cv_core_rtl: $(CV_CORE_PKG)
@@ -307,10 +307,10 @@ clone_compliance:
 	$(CLONE_COMPLIANCE_CMD)
 
 clr_compliance:
-	make clean -C $(CV32E20_DV)/$(CV_CORE_LC)/vendor_lib/riscv/riscv-compliance
+	make clean -C $(CV32E40P_DV)/$(CV_CORE_LC)/vendor_lib/riscv/riscv-compliance
 
 build_compliance: $(COMPLIANCE_PKG)
-	make simulate -i -C $(CV32E20_DV)/$(CV_CORE_LC)/vendor_lib/riscv/riscv-compliance \
+	make simulate -i -C $(CV32E40P_DV)/$(CV_CORE_LC)/vendor_lib/riscv/riscv-compliance \
 		RISCV_TARGET=${RISCV_TARGET} \
 		RISCV_DEVICE=${RISCV_DEVICE} \
 		PATH=$(RISCV)/bin:$(PATH) \
@@ -333,29 +333,29 @@ compliance_check_sig: compliance
 	@echo "Checking Compliance Signature for $(RISCV_ISA)/$(COMPLIANCE_PROG)"
 	@echo "Reference: $(REF)"
 	@echo "Signature: $(SIG)"
-	@export SUITEDIR=$(CV32E20_DV)/$(CV_CORE_LC)/vendor_lib/riscv/riscv-compliance/riscv-test-suite/$(RISCV_ISA) && \
+	@export SUITEDIR=$(CV32E40P_DV)/$(CV_CORE_LC)/vendor_lib/riscv/riscv-compliance/riscv-test-suite/$(RISCV_ISA) && \
 	export REF=$(REF) && export SIG=$(SIG) && export COMPL_PROG=$(COMPLIANCE_PROG) && \
 	export RISCV_TARGET=${RISCV_TARGET} && export RISCV_DEVICE=${RISCV_DEVICE} && \
 	export RISCV_ISA=${RISCV_ISA} export SIG_ROOT=${SIG_ROOT} && \
-	$(CV32E20_DV)/bin/diff_signatures.sh | tee $(COMPLIANCE_RESULTS)/$(CFG)/$(RISCV_ISA)/$(COMPLIANCE_PROG)/$(RUN_INDEX)/diff_signatures.log
+	$(CV32E40P_DV)/bin/diff_signatures.sh | tee $(COMPLIANCE_RESULTS)/$(CFG)/$(RISCV_ISA)/$(COMPLIANCE_PROG)/$(RUN_INDEX)/diff_signatures.log
 
 compliance_check_all_sigs:
 	@$(MKDIR_P) $(COMPLIANCE_RESULTS)/$(CFG)/$(RISCV_ISA)
 	@echo "Checking Compliance Signature for all tests in $(CFG)/$(RISCV_ISA)"
-	@export SUITEDIR=$(CV32E20_DV)/$(CV_CORE_LC)/vendor_lib/riscv/riscv-compliance/riscv-test-suite/$(RISCV_ISA) && \
+	@export SUITEDIR=$(CV32E40P_DV)/$(CV_CORE_LC)/vendor_lib/riscv/riscv-compliance/riscv-test-suite/$(RISCV_ISA) && \
 	export RISCV_TARGET=${RISCV_TARGET} && export RISCV_DEVICE=${RISCV_DEVICE} && \
 	export RISCV_ISA=${RISCV_ISA} export SIG_ROOT=${SIG_ROOT} && \
-	$(CV32E20_DV)/bin/diff_signatures.sh $(RISCV_ISA) | tee $(COMPLIANCE_RESULTS)/$(CFG)/$(RISCV_ISA)/diff_signatures.log
+	$(CV32E40P_DV)/bin/diff_signatures.sh $(RISCV_ISA) | tee $(COMPLIANCE_RESULTS)/$(CFG)/$(RISCV_ISA)/diff_signatures.log
 
 compliance_regression:
 	make build_compliance RISCV_ISA=$(RISCV_ISA)
-	@export SIM_DIR=$(CV32E20_DV)/$(CV_CORE_LC)/sim/uvmt && \
-	$(CV32E20_DV)/bin/run_compliance.sh $(RISCV_ISA)
+	@export SIM_DIR=$(CV32E40P_DV)/$(CV_CORE_LC)/sim/uvmt && \
+	$(CV32E40P_DV)/bin/run_compliance.sh $(RISCV_ISA)
 	make compliance_check_all_sigs RISCV_ISA=$(RISCV_ISA)
 
 dah:
-	@export SIM_DIR=$(CV32E20_DV)/cv32/sim/uvmt && \
-	$(CV32E20_DV)/bin/run_compliance.sh $(RISCV_ISA)
+	@export SIM_DIR=$(CV32E40P_DV)/cv32/sim/uvmt && \
+	$(CV32E40P_DV)/bin/run_compliance.sh $(RISCV_ISA)
 
 ###############################################################################
 # EMBench benchmark
@@ -363,7 +363,7 @@ dah:
 #
 
 embench: $(EMBENCH_PKG)
-	$(CV32E20_DV)/bin/run_embench.py \
+	$(CV32E40P_DV)/bin/run_embench.py \
 		-c $(CV_CORE) \
 		-cc $(RISCV_EXE_PREFIX)$(RISCV_CC) \
 		-sim $(SIMULATOR) \
@@ -415,21 +415,21 @@ isacov_logdiff:
 #include unsim.mk
 #else
 ifeq ($(SIMULATOR), dsim)
-include $(CV32E20_DV)/mk/uvmt/dsim.mk
+include $(CV32E40P_DV)/mk/uvmt/dsim.mk
 else
 ifeq ($(SIMULATOR), xrun)
-include $(CV32E20_DV)/mk/uvmt/xrun.mk
+include $(CV32E40P_DV)/mk/uvmt/xrun.mk
 else
 ifeq ($(SIMULATOR), vsim)
-include $(CV32E20_DV)/mk/uvmt/vsim.mk
+include $(CV32E40P_DV)/mk/uvmt/vsim.mk
 else
 ifeq ($(SIMULATOR), vcs)
-include $(CV32E20_DV)/mk/uvmt/vcs.mk
+include $(CV32E40P_DV)/mk/uvmt/vcs.mk
 else
 ifeq ($(SIMULATOR), riviera)
-include $(CV32E20_DV)/mk/uvmt/riviera.mk
+include $(CV32E40P_DV)/mk/uvmt/riviera.mk
 else
-include $(CV32E20_DV)/mk/uvmt/unsim.mk
+include $(CV32E40P_DV)/mk/uvmt/unsim.mk
 endif
 endif
 endif
@@ -440,13 +440,13 @@ endif
 ################################################################################
 # Open a DVT Eclipse IDE instance with the project imported automatically
 ifeq ($(MAKECMDGOALS), open_in_dvt_ide)
-include $(CV32E20_DV)/mk/uvmt/dvt.mk
+include $(CV32E40P_DV)/mk/uvmt/dvt.mk
 else
 ifeq ($(MAKECMDGOALS), create_dvt_build_file)
-include $(CV32E20_DV)/mk/uvmt/dvt.mk
+include $(CV32E40P_DV)/mk/uvmt/dvt.mk
 else
 ifeq ($(MAKECMDGOALS), dvt_dump_env_vars)
-include $(CV32E20_DV)/mk/uvmt/dvt.mk
+include $(CV32E40P_DV)/mk/uvmt/dvt.mk
 endif
 endif
 endif

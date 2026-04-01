@@ -52,4 +52,7 @@ tools/verilator*
 *.signature_output
 ucli.key
 vcs.cmd
+build/
+core-v-cores/cv32e40p_v1.0.0/
+core-v-cores/rvi32imcf/
 venv*

@@ -87,14 +87,11 @@ For example, for the default rv32imc config:
 
 Running ACT4 Certification Tests with Questa (vsim)
 ----------------------------------------------------
-Questa provides an independent cross-check for Verilator results. This is particularly
-useful for FPU operations (fdiv, fsqrt) where Verilator suppresses UNOPTFLAT warnings
-and may mismodel iterative combinatorial feedback paths, producing false failures.
+Questa provides an independent cross-check for Verilator results.
 
 ### Questa Prerequisites
 - **Questa** (Altera FSE or full edition): `vsim`, `vlog`, `vopt` must be on `$PATH`,
   or override `VSIM`, `VLOG`, `VOPT` variables in the make invocation.
-  Default paths point to `/home/marin/altera/25.1std/questa_fse/`.
 
 ### Questa Certification Flow
 
@@ -124,15 +121,4 @@ The maximum cycle limit per test defaults to 2,000,000 and can be overridden:
 make certify-vsim CV_CORE_CONFIG=rv32imcf VSIM_MAX_CYCLES=5000000
 ```
 
-### Known Verilator vs Questa Differences
 
-| Test | Verilator | Questa | Root cause |
-|---|---|---|---|
-| F-fdiv.s-00 | FAIL | PASS | UNOPTFLAT: iterative combinatorial FPU divide path |
-| F-fdiv.s-01 | FAIL | PASS | UNOPTFLAT: iterative combinatorial FPU divide path |
-| F-fsqrt.s-00 | FAIL | PASS | UNOPTFLAT: iterative combinatorial FPU sqrt path |
-
-These are Verilator simulation artefacts, not RTL bugs. Verilator converts the
-combinatorial feedback loops in the FPNEw FPU (used by CV32E40P) into clocked
-logic when `--Wno-UNOPTFLAT` is set, which produces incorrect intermediate values
-for multi-cycle iterative operations. Questa models the combinatorial paths correctly.

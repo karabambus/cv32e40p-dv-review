@@ -18,7 +18,7 @@
 #
 ###############################################################################
 #
-# Makefile for the CV32E20 UVM testbench.
+# Makefile for the CV32E40P UVM testbench.
 #
 ###############################################################################
 
@@ -36,7 +36,7 @@ export CV_SW_MARCH   = rv32imc_zicsr_zifencei
 CV_SW_TOOLCHAIN      ?= /opt/riscv
 CV_SW_PREFIX         ?= " "
 
-CORE_DEFINES         = +define+CV32E20_RVFI+RVFI
+CORE_DEFINES         = +define+CV32E40P_RVFI+RVFI
 
 UVM_VERBOSITY        ?= UVM_LOW
 

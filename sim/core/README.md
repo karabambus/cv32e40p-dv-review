@@ -1,4 +1,4 @@
-Simulation Directory for CV32E20 Core Testbench
+Simulation Directory for CV32E40P Core Testbench
 ================================================
 This is the directory in which you should run all tests of the Core Testbench.
 The testbench itself is located at `../../tb/core` and the test-programs are at
@@ -12,7 +12,7 @@ If you would like to contribute an update to support your favorite simulator, pl
 
 RISC-V GCC Compiler "Toolchain"
 -------------------------------
-Pointers to the recommended toolchain for CV32E20 are in `../TOOLCHAIN`.
+Pointers to the recommended toolchain for CV32E40P are in `../TOOLCHAIN`.
 
 Running the testbench with [verilator](https://www.veripool.org/wiki/verilator)
 ----------------------
@@ -36,7 +36,7 @@ make test TEST=riscv_ebreak_test_0
 
 Running RISC-V Architectural Certification Tests (ACT4)
 -------------------------------------------------------
-CV32E20-DV supports the RISC-V Architectural Certification Tests (ACT4). The ACT4 repository is
+CV32E40P-DV supports the RISC-V Architectural Certification Tests (ACT4). The ACT4 repository is
 fetched on demand via a Make target — it is **not** a git submodule.
 
 ### Prerequisites

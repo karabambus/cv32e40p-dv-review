@@ -16,7 +16,7 @@
 
 /*
 * Copyright 2020 Embecosm
-* Copyright 2022 OpenHW Group
+* Copyright 2022 Eclipse Foundation
 * SPDX-License-Identifier: Apache-2.0 WITH SHL-2.1
 */
 

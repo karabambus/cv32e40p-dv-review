@@ -2,7 +2,7 @@
 /*
  * Copyright 2018 Google LLC
  * Copyright 2020 Andes Technology Co., Ltd.
- * Copyright 2020,2022 OpenHW Group
+ * Copyright 2020,2022 Eclipse Foundation
  * Copyright 2020 Silicon Labs, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");

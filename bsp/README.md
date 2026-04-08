@@ -1,5 +1,5 @@
 <!--
-Copyright 2022 OpenHW Group
+Copyright 2022 Eclipse Foundation
 SPDX-License-Identifier: Apache-2.0 WITH SHL-2.1
 -->
 Board Support Package (BSP) for CV32E20 Verification

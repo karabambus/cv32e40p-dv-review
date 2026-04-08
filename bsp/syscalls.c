@@ -1,4 +1,4 @@
-// Copyright (c) 2021 OpenHW Group
+// Copyright (c) 2021 Eclipse Foundation
 // SPDX-License-Identifier: Apache-2.0 WITH SHL-2.1
 
 /* An extremely minimalist syscalls.c for newlib

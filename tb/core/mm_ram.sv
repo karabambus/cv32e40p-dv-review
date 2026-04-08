@@ -1,6 +1,6 @@
 // MM_RAM: Memory Mapped virtual peripheral and RAM model.
 //
-// Copyright 2025 OpenHW Foundation
+// Copyright 2025 Eclipse Foundation
 // SPDX-License-Identifier: Apache-2.0 WITH SHL-0.51
 // 
 // Copyright 2017 Embecosm Limited <www.embecosm.com>

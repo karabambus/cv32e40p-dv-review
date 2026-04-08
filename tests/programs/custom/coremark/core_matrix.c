@@ -16,7 +16,7 @@ limitations under the License.
 Original Author: Shay Gal-on
 */
 
-// Copyright 2020,2022 OpenHW Group
+// Copyright 2020,2022 Eclipse Foundation
 // Copyright 2020 Silicon Labs, Inc.
 //
 // Licensed under the Solderpad Hardware Licence, Version 2.0 (the "License");

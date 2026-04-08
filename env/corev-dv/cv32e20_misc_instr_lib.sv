@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0 WITH SHL-2.1
 /*
- * Copyright 2020,2022 OpenHW Group
+ * Copyright 2020,2022 Eclipse Foundation
  * Copyright 2020 Silicon Labs, Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");

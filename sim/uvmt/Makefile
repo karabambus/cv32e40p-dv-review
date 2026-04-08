@@ -23,11 +23,10 @@
 ###############################################################################
 
 # "Constants"
-# TODO: unify CORE_V_VERIF and CV32E40P_DV into single variable (perhaps CV_DV?).
 MAKE                  = make
 MAKE_PATH            := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
-export CORE_V_VERIF   = $(abspath $(MAKE_PATH)/../..)
 export CV32E40P_DV     = $(abspath $(MAKE_PATH)/../..)
+export CORE_V_VERIF   = $(CV32E40P_DV)/vendor_lib/openhwgroup_core-v-verif
 export CV_CORE       ?= cv32e40p
 
 DPI_DASM_SPIKE_REPO  ?= https://github.com/riscv/riscv-isa-sim.git

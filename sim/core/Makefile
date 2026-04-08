@@ -68,7 +68,7 @@ ifneq (${SIMULATOR}, verilator)
   SIMULATOR = verilator
 endif
 
-# Test-Program directores.
+# Test-Program directories.
 # Relative path is used for Verilator which cannot seem to handle loooong pathnames.
 # TODO: find out if that is still true and if not, switch to abs paths.
 TEST_PROGRAM_PATH    = $(CV32E40P_DV)/tests/programs/custom
@@ -158,7 +158,7 @@ check:
 	@cat $(CFG_FLAGS_MAKE)
 	@echo "CLONE_CV_CORE_CMD = $(CLONE_CV_CORE_CMD)"
 
-# Shorthand rules for convience
+# Shorthand rules for convenience
 ifeq ($(CV_CORE_CONFIG),v1.0.0_rv32imc)
 CV_CORE_pkg: clone_rtl_v1.0.0
 else
@@ -176,7 +176,7 @@ tbsrc: $(TBSRC)
 
 .PHONY: sanity
 sanity:
-	make test TEST=hello-world
+	$(MAKE) test TEST=hello-world
 
 all: clean_all sanity
 

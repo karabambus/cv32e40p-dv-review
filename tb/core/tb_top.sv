@@ -179,9 +179,9 @@ module tb_top
 
     final begin
         if (wave_file != "") begin
-	    $display("[%s] @ t=%0t: waves written to %s", id, $time, wave_file);
-	end
-	$display("\n[%s] @ t=%0t: simulation ending...", id, $time);
+            $display("[%s] @ t=%0t: waves written to %s", id, $time, wave_file);
+        end
+        $display("\n[%s] @ t=%0t: simulation ending...", id, $time);
     end
 
     // DUT — version selected at compile time inside cv32e40p_dut_wrap

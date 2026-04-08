@@ -4,7 +4,7 @@
 
 # Makefile for the CV32E40P "Board Support Package".
 # The "BSP" is the bare-metal programming environment
-# for the CV32E40P in it's testbench.
+# for the CV32E40P in its testbench.
 
 BSP_DIR           = $(PWD)
 CV_SW_TOOLCHAIN  ?= /opt/riscv

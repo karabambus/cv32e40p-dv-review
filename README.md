@@ -8,10 +8,10 @@ Non-CV32E40P-specific verification components (e.g. OBI Agent) used in this veri
 
 ## Directories:
 - **bsp**:        the "board support package" for test-programs compiled/assembled/linked for the CV32E40P.  This BSP is used by both the `core` testbench and the `uvmt_cv32` UVM verification environment.
-- **env**:        the UVM environment class and its associated infrastrucutre.
+- **env**:        the UVM environment class and its associated infrastructure.
 - **mk**:         Makefiles and related scriptware. You may find it useful to review the [Common Makefile README](https://github.com/openhwgroup/core-v-verif/blob/master/mk/README.md).
 - **sim**:        directory where you run the simulations.
-- **tb**:         the Testbench module that instanitates the core.
+- **tb**:         the Testbench module that instantiates the core.
 - **tests**:      this is where all the testcases are.
 - **vendor_lib**: Third party vendor libraries and extensions to same.
 

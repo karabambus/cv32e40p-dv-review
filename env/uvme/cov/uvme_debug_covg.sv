@@ -42,7 +42,7 @@ class uvme_debug_covg extends uvm_component;
     */
 
   // TODO: this covergroup is from the CV32E40P and is probably meaningless in
-  // the CV32E40P contenxt.  Needs to be reviewed.
+  // the CV32E40P context.  Needs to be reviewed.
   //covergroup cg_debug_mode_ext ;
   //        `per_instance_fcov
   //        state: coverpoint cntxt.debug_cov_vif.mon_cb.ctrl_fsm_cs{
@@ -372,7 +372,7 @@ class uvme_debug_covg extends uvm_component;
 
     // Cover that we get a debug_req_i while in RESET state
     // TODO: this covergroup is from the CV32E40P and is probably meaningless in
-    // the CV32E40P contenxt.  Needs to be reviewed.
+    // the CV32E40P context.  Needs to be reviewed.
     //covergroup cg_debug_at_reset;
     //    `per_instance_fcov
     //    state : coverpoint cntxt.debug_cov_vif.mon_cb.ctrl_fsm_cs {

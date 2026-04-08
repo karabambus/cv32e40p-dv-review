@@ -185,6 +185,9 @@ ifeq ($(call IS_YES,$(USE_ISS)),YES)
 else
 	VSIM_FLAGS += +DISABLE_OVPSIM
 endif
+
+VSIM_FLAGS += -sv_lib $(basename $(RVVI_STUB_LIB))
+
 ifeq ($(call IS_YES,$(TEST_DISABLE_ALL_CSR_CHECKS)),YES)
 VSIM_FLAGS +="+DISABLE_ALL_CSR_CHECKS"
 endif

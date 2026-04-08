@@ -17,7 +17,7 @@
 #
 ################################################################################
 #
-# CSR definitions for the CV32E40P CORE-V proessor core (an RV32IMCZ machine).
+# CSR definitions for the CV32E40P CORE-V processor core (an RV32IMCZ machine).
 #
 # This file can be used as input to "gen_csr_test.py" delivered as part of
 # Google's riscv-dv project.  Assuming you are running this from

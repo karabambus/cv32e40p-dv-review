@@ -16,7 +16,7 @@
 
 /*
 * Copyright 2020 Embecosm
-* Copyright 2022 OpenHW Group
+* Copyright 2022 Eclipse Foundation
 * SPDX-License-Identifier: Apache-2.0 WITH SHL-2.1
 */
 
@@ -223,12 +223,12 @@ end_handler_ret:
 
 .section .rodata
 illegal_insn_msg:
-	.string "CV32E20 BSP: illegal instruction exception handler entered\n"
+	.string "CV32E40P BSP: illegal instruction exception handler entered\n"
 ecall_msg:
-	.string "CV32E20 BSP: ecall exception handler entered\n"
+	.string "CV32E40P BSP: ecall exception handler entered\n"
 ebreak_msg:
-	.string "CV32E20 BSP: ebreak exception handler entered\n"
+	.string "CV32E40P BSP: ebreak exception handler entered\n"
 unknown_msg:
-	.string "CV32E20 BSP: unknown exception handler entered\n"
+	.string "CV32E40P BSP: unknown exception handler entered\n"
 no_exception_handler_msg:
-	.string "CV32E20 BSP: no exception handler installed\n"
+	.string "CV32E40P BSP: no exception handler installed\n"

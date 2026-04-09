@@ -1,5 +1,5 @@
 //
-// Copyright 2022 OpenHW Group
+// Copyright 2022 Eclipse Foundation
 // Copyright 2022 Imperas
 //
 // Licensed under the Solderpad Hardware Licence, Version 2.0 (the "License");

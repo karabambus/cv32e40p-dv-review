@@ -1,5 +1,5 @@
 //
-// Copyright 2022 OpenHW Group
+// Copyright 2022 Eclipse Foundation
 // Copyright 2020 Datum Technology Corporation
 // Copyright 2020 Silicon Labs, Inc.
 //

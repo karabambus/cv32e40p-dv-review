@@ -12,3 +12,4 @@ vc_hdrs.h
 *.vcd
 *.fst
 cobj_dir
+simulation_results/

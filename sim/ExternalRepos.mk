@@ -10,10 +10,14 @@
 
 export SHELL = /bin/bash
 
-CV_CORE_REPO   ?= https://github.com/openhwgroup/cve2
-CV_CORE_BRANCH ?= main
-CV_CORE_HASH   ?= b72358c
+CV_CORE_REPO   ?= https://github.com/openhwgroup/cv32e40p
+CV_CORE_BRANCH ?= master
+CV_CORE_HASH   ?= 360d272898d81806be3377193870dbf83a3ea79f    # tag: cv32e40p_v1.8.3
 
+# CV32E40P v1.0.0 (RTL Freeze 2020-12-10)
+CV_CORE_V100_REPO   ?= https://github.com/openhwgroup/cv32e40p
+CV_CORE_V100_BRANCH ?= master
+CV_CORE_V100_HASH   ?= 120ac3ee79ef56a57fe07dd8701cd4ee94458fd5  # tag: cv32e40p_v1.0.0
 
 CV_VERIF_REPO   ?= https://github.com/openhwgroup/core-v-verif
 CV_VERIF_BRANCH ?= cv32e40p-dv/dev
@@ -33,6 +37,6 @@ SVLIB_BRANCH     ?= master
 SVLIB_HASH       ?= c25509a7e54a880fe8f58f3daa2f891d6ecf6428
 
 # ACT4 (RISC-V Architectural Certification Tests)
-ACT4_REPO   ?= https://github.com/riscv-non-isa/riscv-arch-test
+ACT4_REPO   ?= https://github.com/riscv/riscv-arch-test
 ACT4_BRANCH ?= act4
-ACT4_HASH   ?= 3b087b34750a63522dadb7fbec857bbe9d8e2a70
+ACT4_HASH   ?= d714306847303a0def3fe8df043257757867034c

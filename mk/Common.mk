@@ -1,6 +1,6 @@
 ###############################################################################
 #
-# Copyright 2020 OpenHW Group
+# Copyright 2020 Eclipse Foundation
 #
 # Licensed under the Solderpad Hardware Licence, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -220,7 +220,7 @@ endif
 ###############################################################################
 # Fetch CV_SW_ variables from the TEST yaml
 # If the gen_corev-dv target is defined then read in a test defintions file
-YAML2MAKE = $(CV32E20_DV)/bin/yaml2make
+YAML2MAKE = $(CV32E40P_DV)/bin/yaml2make
 ifneq ($(filter gen_corev-dv,$(MAKECMDGOALS)),)
   $(info MAKECMDGOALS contains gen_corev-dv)
   ifeq ($(TEST),)
@@ -260,7 +260,7 @@ endif
 
 ###############################################################################
 # Generate and include CFG_FLAGS_MAKE, based on the YAML test description.
-CFGYAML2MAKE = $(CV32E20_DV)/bin/cfgyaml2make
+CFGYAML2MAKE = $(CV32E40P_DV)/bin/cfgyaml2make
 CFG_YAML_PARSE_TARGETS=comp ldgen comp_corev-dv gen_corev-dv test hex clean_hex corev-dv sanity-veri-run bsp check
 ifneq ($(filter $(CFG_YAML_PARSE_TARGETS),$(MAKECMDGOALS)),)
   $(info MAKECMDGOALS=$(MAKECMDGOALS) is contained in CFG_YAML_PARSE_TARGETS=$(CFG_YAML_PARSE_TARGETS))
@@ -409,10 +409,10 @@ ASM_DIR   ?= $(ASM)
 #
 # Note that the DSIM targets allow for writing the log-files to arbitrary
 # locations, so all of these paths are absolute, except those used by Verilator.
-#CORE_TEST_DIR                        = $(CV32E20_DV)/$(CV_CORE_LC)/tests/programs
-#BSP                                  = $(CV32E20_DV)/$(CV_CORE_LC)/bsp
-CORE_TEST_DIR                        = $(CV32E20_DV)/tests/programs
-BSP                                  = $(CV32E20_DV)/bsp
+#CORE_TEST_DIR                        = $(CV32E40P_DV)/$(CV_CORE_LC)/tests/programs
+#BSP                                  = $(CV32E40P_DV)/$(CV_CORE_LC)/bsp
+CORE_TEST_DIR                        = $(CV32E40P_DV)/tests/programs
+BSP                                  = $(CV32E40P_DV)/bsp
 FIRMWARE                             = $(CORE_TEST_DIR)/firmware
 VERI_FIRMWARE                        = ../../tests/core/firmware
 ASM_PROG                            ?= my_hello_world
@@ -492,7 +492,7 @@ FIRMWARE_UNIT_TEST_OBJS   =  	$(addsuffix .o, \
 		-M no-aliases \
 		-M numeric \
 		-l \
-		$*.elf | $(CV32E20_DV)/bin/objdump2itb - > $*.itb
+		$*.elf | $(CV32E40P_DV)/bin/objdump2itb - > $*.itb
 
 # Patterned targets to generate ELF.  Used only if explicit targets do not match.
 #
@@ -594,13 +594,13 @@ bsp:
 		RISCV=$(RISCV) \
 		RISCV_PREFIX=$(RISCV_PREFIX) \
 		RISCV_EXE_PREFIX=$(RISCV_EXE_PREFIX) \
-		RISCV_MARCH=$(RISCV_MARCH) \
+		CV_SW_MARCH=$(CV_SW_MARCH) \
 		RISCV_CC=$(RISCV_CC) \
 		RISCV_CFLAGS="$(RISCV_CFLAGS)" \
 		all
 
 vars_bsp:
-	make vars -C $(BSP) RISCV=$(RISCV) RISCV_PREFIX=$(RISCV_PREFIX) RISCV_EXE_PREFIX=$(RISCV_EXE_PREFIX) RISCV_MARCH=$(RISCV_MARCH)
+	make vars -C $(BSP) RISCV=$(RISCV) RISCV_PREFIX=$(RISCV_PREFIX) RISCV_EXE_PREFIX=$(RISCV_EXE_PREFIX) CV_SW_MARCH=$(CV_SW_MARCH)
 
 clean_bsp:
 	make -C $(BSP) clean
@@ -766,8 +766,8 @@ dpi_dasm: $(DPI_DASM_SPIKE_PKG)
 ###############################################################################
 # Build vendor/riscv-isa-sim into tools/
 
-export SPIKE_PATH  = $(CV32E20_DV)/vendor/riscv/riscv-isa-sim
-export SPIKE_INSTALL_DIR = $(CV32E20_DV)/tools/spike/
+export SPIKE_PATH  = $(CV32E40P_DV)/vendor/riscv/riscv-isa-sim
+export SPIKE_INSTALL_DIR = $(CV32E40P_DV)/tools/spike/
 SPIKE_LIBS_DIR = $(SPIKE_INSTALL_DIR)/lib/
 SPIKE_FESVR_LIB = $(SPIKE_LIBS_DIR)/libfesvr
 SPIKE_RISCV_LIB = $(SPIKE_LIBS_DIR)/libriscv
@@ -792,8 +792,8 @@ spike_lib: $(SPIKE_FESVR_LIB).so $(SPIKE_RISCV_LIB).so
 ###############################################################################
 # Build SVLIB DPI
 
-SVLIB_PKG        := $(CV32E20_DV)/vendor_lib/verilab/svlib
-export SVLIB_PKG  = $(CV32E20_DV)/vendor_lib/verilab/svlib
+SVLIB_PKG        := $(CV32E40P_DV)/vendor_lib/verilab/svlib
+export SVLIB_PKG  = $(CV32E40P_DV)/vendor_lib/verilab/svlib
 
 
 SVLIB_SRC    = $(SVLIB_PKG)/svlib/src/dpi/svlib_dpi.c
@@ -818,7 +818,7 @@ $(SVLIB_PKG):
 
 ###############################################################################
 # Clone ACT4
-export ACT4_PKG  = $(CV32E20_DV)/vendor_lib/riscv-arch-test/act4
+export ACT4_PKG  = $(CV32E40P_DV)/vendor_lib/riscv-arch-test/act4
 
 clone_act4: $(ACT4_PKG)
 

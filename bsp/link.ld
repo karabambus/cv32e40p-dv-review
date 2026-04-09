@@ -1,7 +1,7 @@
 /* Script for -z combreloc */
 /* Copyright (C) 2014-2020 Free Software Foundation, Inc.
    Copyright (C) 2019 ETH Zürich and University of Bologna
-   Copyright (C) 2020 OpenHW Group
+   Copyright (C) 2020 Eclipse Foundation
    SPDX-License-Identifier: Apache-2.0 WITH SHL-2.1
    Copying and distribution of this script, with or without modification,
    are permitted in any medium without royalty provided the copyright
@@ -47,14 +47,14 @@ SECTIONS
   } >dbg
 
   /* CORE-V: we want a fixed entry point */
-  PROVIDE(__boot_address = 0x4000);
+  PROVIDE(__boot_address = 0x100);
   PROVIDE(_debugger_exception_start = 0x1A140000);
 
 
   /* CORE-V: crt0 init code */
   .init (ORIGIN(ram)):
   {
-    . = 0x4000;
+    . = 0x100;
     KEEP (*(SORT_NONE(.init)))
     KEEP (*(.text.start))
   } >ram

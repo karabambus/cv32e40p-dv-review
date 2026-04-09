@@ -17,12 +17,13 @@
 //
 
 
-`ifndef __UVMT_CV32E20_IMPERAS_DV_WRAP_SV__
-`define __UVMT_CV32E20_IMPERAS_DV_WRAP_SV__
+`ifndef __UVMT_CV32E40P_IMPERAS_DV_WRAP_SV__
+`define __UVMT_CV32E40P_IMPERAS_DV_WRAP_SV__
 
-`define DUT_PATH dut_wrap.cv32e20_top_i
+// TODO: verify these hierarchy paths against actual CV32E40P RTL
+`define DUT_PATH dut_wrap.cv32e40p_top_i
 `define RVFI_IF  `DUT_PATH
-`define DUT_CORE_PATH dut_wrap.cv32e20_top_i.u_cve2_top.u_cve2_core
+`define DUT_CORE_PATH dut_wrap.cv32e40p_top_i.u_cv32e40p_top.u_cv32e40p_core
 
 `define STRINGIFY(x) `"x`"
 
@@ -87,7 +88,7 @@
 
 `include "idv/idv.svh" // located in $IMPERAS_HOME/ImpProprietary/include/host
 
-module uvmt_cv32e20_imperas_dv_wrap
+module uvmt_cv32e40p_imperas_dv_wrap
   import uvm_pkg::*;
   import idvPkg::*;
   import rvviApiPkg::*;
@@ -555,8 +556,8 @@ module uvmt_cv32e20_imperas_dv_wrap
 
     // Select processor
     void'(rvviRefConfigSetString(IDV_CONFIG_MODEL_VENDOR,  "openhwgroup.ovpworld.org"));
-    void'(rvviRefConfigSetString(IDV_CONFIG_MODEL_NAME,    "CVE2"));
-    void'(rvviRefConfigSetString(IDV_CONFIG_MODEL_VARIANT, "CV32E20"));
+    void'(rvviRefConfigSetString(IDV_CONFIG_MODEL_NAME,    "CV32E40P"));
+    void'(rvviRefConfigSetString(IDV_CONFIG_MODEL_VARIANT, "CV32E40P"));
     // Worst case propagation of events 4 retirements (actually 3 observed)
     void'(rvviRefConfigSetInt(IDV_CONFIG_MAX_NET_LATENCY_RETIREMENTS, 4));
     // Redirect stdout to parent systemverilog simulator
@@ -633,12 +634,12 @@ module uvmt_cv32e20_imperas_dv_wrap
 
     void'(rvviRefMemorySetVolatile('h15001000, 'h15001007)); //TODO: deal with int return value
   endtask // ref_init
-endmodule : uvmt_cv32e20_imperas_dv_wrap
+endmodule : uvmt_cv32e40p_imperas_dv_wrap
 `else   // USE_ISS_IMPERAS
 /////////////////////////////////////////////////////////////////////////////
 // Stub for ImperasDV wrapper
 /////////////////////////////////////////////////////////////////////////////
-module uvmt_cv32e20_imperas_dv_wrap import uvm_pkg::*;
+module uvmt_cv32e40p_imperas_dv_wrap import uvm_pkg::*;
     #( parameter FPU   = 0,
        parameter ZFINX = 0
      )
@@ -651,8 +652,8 @@ module uvmt_cv32e20_imperas_dv_wrap import uvm_pkg::*;
       `uvm_info(info_tag, "Using a \"stub\" in place of ImperasDV.", UVM_NONE)
   endtask // ref_init
 
-endmodule : uvmt_cv32e20_imperas_dv_wrap
+endmodule : uvmt_cv32e40p_imperas_dv_wrap
 `endif  // USE_ISS_IMPERAS
 `endif  // FORMAL
 
-`endif // __UVMT_CV32E20_IMPERAS_DV_WRAP_SV__
+`endif // __UVMT_CV32E40P_IMPERAS_DV_WRAP_SV__

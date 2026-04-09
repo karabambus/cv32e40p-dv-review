@@ -1,5 +1,5 @@
-// Top level testbench for the CV32E20
-// 
+// Top level testbench for the CV32E40P
+//
 // Copyright 2025 Eclipse Foundation
 // SPDX-License-Identifier: Apache-2.0 WITH SHL-0.51
 //
@@ -22,8 +22,15 @@
 module tb_top
     #(parameter INSTR_RDATA_WIDTH = 32,
       parameter RAM_ADDR_WIDTH    = 22,
-      parameter BOOT_ADDR         = 'h4000 // must be 256-byte aligned; raised from 'h2000 to satisfy .align 14 in I-jal test
+      parameter FPU_EN            = 0
      );
+
+    // boot_addr can be overridden at runtime via +boot_addr=<hex> plusarg
+    logic [31:0] boot_addr;
+    initial begin
+        if (!$value$plusargs("boot_addr=%h", boot_addr))
+            boot_addr = 32'h100;
+    end
 
     const int CLK_PHASE_HI        = 5;
     const int CLK_PHASE_LO        = 5;
@@ -33,9 +40,6 @@ module tb_top
     // clock and reset for tb
     logic                   core_clk;
     logic                   core_rst_n;
-
-    // CPU control signals
-    logic                   fetch_enable;
 
     // cycle counter
     int unsigned            cycle_cnt_q;
@@ -50,6 +54,28 @@ module tb_top
     string id = "tb_top";
     string wave_file;
 
+    // OBI instruction bus
+    logic                         instr_req;
+    logic                         instr_gnt;
+    logic                         instr_rvalid;
+    logic [31:0]                  instr_addr;
+    logic [INSTR_RDATA_WIDTH-1:0] instr_rdata;
+
+    // OBI data bus
+    logic                         data_req;
+    logic                         data_gnt;
+    logic                         data_rvalid;
+    logic [31:0]                  data_addr;
+    logic                         data_we;
+    logic [3:0]                   data_be;
+    logic [31:0]                  data_rdata;
+    logic [31:0]                  data_wdata;
+
+    // IRQ (32-bit, from mm_ram)
+    logic [31:0]                  irq;
+    logic                         irq_ack;
+    logic [4:0]                   irq_id;
+
     // dumps waves
     initial begin
         if ($value$plusargs("wave_file=%s", wave_file)) begin
@@ -63,12 +89,11 @@ module tb_top
     // doesn't do more than an infinite loop with some I/O
     initial begin: load_prog
         automatic string test_program;
-        automatic int prog_size = 6;
 
         if($value$plusargs("test_program=%s", test_program)) begin
             if($test$plusargs("verbose"))
                 $display("[%s] @ t=%0t: loading test-program %0s", id, $time, test_program);
-            $readmemh(test_program, cv32e20_tb_wrapper_inst.mm_ram_inst.dp_ram_inst.mem);
+            $readmemh(test_program, mm_ram_i.dp_ram_inst.mem);
         end else begin
             $display("[%s] @ t=%0t: No test_program specified... terminating.", id, $time);
             end_of_sim();
@@ -89,7 +114,6 @@ module tb_top
     initial begin
         $timeformat(-9, 0, "ns", 9);
         core_rst_n   = 1'b1; // deassert reset at t=0
-        fetch_enable = 1'b0; // deassert fetch-enable (for now)
 
         @(negedge core_clk) core_rst_n = 1'b0; // assert reset
         // hold in reset for a few cycles
@@ -99,14 +123,6 @@ module tb_top
         core_rst_n = 1'b1;
         if($test$plusargs("verbose")) begin
             $display("[%s] @ t=%0t: reset deasserted", id, $time);
-        end
-
-        // wait a few cycles
-        repeat (RESET_ASSERT_CYCLES) @(posedge core_clk);
-        // assert fetch-enable
-        #CLK2NRESET_DELAY fetch_enable = 1'b1;
-        if($test$plusargs("verbose")) begin
-            $display("[%s] @ t=%0t: fetch-enable asserted", id, $time);
         end
 
         if ( !( (INSTR_RDATA_WIDTH == 128) || (INSTR_RDATA_WIDTH == 32) ) ) begin
@@ -163,34 +179,70 @@ module tb_top
 
     final begin
         if (wave_file != "") begin
-	    $display("[%s] @ t=%0t: waves written to %s", id, $time, wave_file);
-	end
-	$display("\n[%s] @ t=%0t: Verilator simulation ending...", id, $time);
+            $display("[%s] @ t=%0t: waves written to %s", id, $time, wave_file);
+        end
+        $display("\n[%s] @ t=%0t: simulation ending...", id, $time);
     end
 
-    // wrapper for cv32e20, the memory and virtual peripherals.
-    cv32e20_tb_wrapper
-        #(
-          // Parameters used by TB
-          .INSTR_RDATA_WIDTH (INSTR_RDATA_WIDTH),
-          .RAM_ADDR_WIDTH    (RAM_ADDR_WIDTH),
-          .BOOT_ADDR         (BOOT_ADDR),
-          .DM_HALTADDRESS    (32'h1A11_0800),
-          // Parameters used by DUT
-          .MHPMCounterNum    (10),
-          .MHPMCounterWidth  (40),
-          .RV32E             (1'b0),
-          .RV32M             (2/*RV32MFast*/)
-         )
-    cv32e20_tb_wrapper_inst
-        (
-         .clk_i          ( core_clk     ),
-         .rst_ni         ( core_rst_n   ),
-         .fetch_enable_i ( fetch_enable ),
-         .tests_passed_o ( tests_passed ),
-         .tests_failed_o ( tests_failed ),
-         .exit_valid_o   ( exit_valid   ),
-         .exit_value_o   ( exit_value   )
-        );
+    // DUT — version selected at compile time inside cv32e40p_dut_wrap
+    cv32e40p_dut_wrap
+      #(.INSTR_RDATA_WIDTH (INSTR_RDATA_WIDTH),
+        .FPU_EN            (FPU_EN))
+    dut_i
+      (.clk_i          (core_clk),
+       .rst_ni         (core_rst_n),
+       .boot_addr_i    (boot_addr),
+       .instr_req_o    (instr_req),
+       .instr_gnt_i    (instr_gnt),
+       .instr_rvalid_i (instr_rvalid),
+       .instr_addr_o   (instr_addr),
+       .instr_rdata_i  (instr_rdata),
+       .data_req_o     (data_req),
+       .data_gnt_i     (data_gnt),
+       .data_rvalid_i  (data_rvalid),
+       .data_addr_o    (data_addr),
+       .data_we_o      (data_we),
+       .data_be_o      (data_be),
+       .data_wdata_o   (data_wdata),
+       .data_rdata_i   (data_rdata),
+       .irq_i          (irq),
+       .irq_ack_o      (irq_ack),
+       .irq_id_o       (irq_id));
+
+    // mm_ram: memory mapped virtual peripheral and RAM model
+    mm_ram
+        #(.RAM_ADDR_WIDTH  (RAM_ADDR_WIDTH),
+          .INSTR_RDATA_WIDTH(INSTR_RDATA_WIDTH))
+    mm_ram_i
+        (.clk_i          (core_clk),
+         .rst_ni         (core_rst_n),
+         .dm_halt_addr_i (32'h1A110800),
+
+         .instr_req_i    (instr_req),
+         .instr_addr_i   ({{10{1'b0}}, instr_addr[RAM_ADDR_WIDTH-1:0]}),
+         .instr_rdata_o  (instr_rdata),
+         .instr_rvalid_o (instr_rvalid),
+         .instr_gnt_o    (instr_gnt),
+
+         .data_req_i     (data_req),
+         .data_addr_i    (data_addr),
+         .data_we_i      (data_we),
+         .data_be_i      (data_be),
+         .data_wdata_i   (data_wdata),
+         .data_rdata_o   (data_rdata),
+         .data_rvalid_o  (data_rvalid),
+         .data_gnt_o     (data_gnt),
+
+         .irq_id_i       (irq_id),
+         .irq_ack_i      (irq_ack),
+         .irq_o          (irq),
+
+         .debug_req_o    (),
+         .pc_core_id_i   ('0),
+
+         .tests_passed_o (tests_passed),
+         .tests_failed_o (tests_failed),
+         .exit_valid_o   (exit_valid),
+         .exit_value_o   (exit_value));
 
 endmodule // tb_top

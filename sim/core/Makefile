@@ -45,8 +45,8 @@
 MAKE           = make
 MAKE_DIR       = $(PWD)
 MAKE_PATH     := $(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
-CV32E20_DV     = $(abspath $(MAKE_PATH)/../../)
-CORE_V_VERIF   = $(CV32E20_DV)/vendor_lib/openhwgroup_core-v-verif
+CV32E40P_DV     = $(abspath $(MAKE_PATH)/../../)
+CORE_V_VERIF   = $(CV32E40P_DV)/vendor_lib/openhwgroup_core-v-verif
 DATE           = $(shell date +%F)
 WAVE          ?= 0
 WAVES         ?= 0
@@ -72,12 +72,12 @@ endif
 # Test-Program directores.
 # Relative path is used for Verilator which cannot seem to handle loooong pathnames.
 # TODO: find out if that is still true and if not, switch to abs paths.
-TEST_PROGRAM_PATH    = $(CV32E20_DV)/tests/programs/custom
+TEST_PROGRAM_PATH    = $(CV32E40P_DV)/tests/programs/custom
 TEST_PROGRAM_RELPATH = ../../tests/programs/custom
-# 'Special' test-programs (see $(CV32E20_DV)/mk/Common.mk)
+# 'Special' test-programs (see $(CV32E40P_DV)/mk/Common.mk)
 TEST_FIXED_ELF ?=
 TEST_ACT       ?=
-ACT_MACROS      = $(CV32E20_DV)/bsp/act4
+ACT_MACROS      = $(CV32E40P_DV)/bsp/act4
 
 # Common output directories
 RUN_INDEX               ?= 0
@@ -99,7 +99,7 @@ CFG          ?= default
 #  -Variables for RTL and other dependencies (e.g. RISCV-DV)
 include ../ExternalRepos.mk
 #  -Core Firmware and the RISCV GCC Toolchain (SDK)
-include $(CV32E20_DV)/mk/Common.mk
+include $(CV32E40P_DV)/mk/Common.mk
 
 ###############################################################################
 # verilator configuration
@@ -114,9 +114,9 @@ VERI_OBJ_DIR       ?= cobj_dir
 VERI_LOG_DIR       ?= $(SIM_TEST_PROGRAM_RESULTS)
 VERI_CFLAGS        += -O2
 
-# TB source files for the CV32E20 core
+# TB source files for the CV32E40P core
 #TBSRC_HOME  := $(CORE_V_VERIF)/$(CV_CORE_LC)/tb
-TBSRC_HOME  := $(CV32E20_DV)/tb
+TBSRC_HOME  := $(CV32E40P_DV)/tb
 TBSRC_TOP   := $(TBSRC_HOME)/core/tb_top.sv
 TBSRC_CORE  := $(TBSRC_HOME)/core
 TBSRC_PKG   := $(TBSRC_CORE)/tb_riscv/include/perturbation_defines.sv
@@ -143,9 +143,9 @@ TBSRC_VERI  := $(TBSRC_CORE)/tb_top.sv \
                $(TBSRC_CORE)/dp_ram.sv
 SIM_LIBS    := $(CORE_V_VERIF)/lib/sim_libs
 
-# RTL source files for the CV32E20 core
+# RTL source files for the CV32E40P core
 # DESIGN_RTL_DIR is used by CV_CORE_MANIFEST file
-CV_CORE_PKG           := $(CV32E20_DV)/core-v-cores/$(CV_CORE_LC)
+CV_CORE_PKG           := $(CV32E40P_DV)/core-v-cores/$(CV_CORE_LC)
 CV_CORE_RTLSRC_INCDIR := $(CV_CORE_PKG)/rtl/include
 CV_CORE_RTLSRC_PKG    := $(CV_CORE_PKG)/rtl/fpnew/src/fpnew_pkg.sv \
                          $(addprefix $(CV_CORE_RTLSRC_INCDIR)/,\
@@ -161,7 +161,7 @@ check:
 	@echo "$(BANNER)"
 	@echo "* Generated variables:"
 	@echo "$(BANNER)"
-	@echo "CV32E20_DV      = $(CV32E20_DV)"
+	@echo "CV32E40P_DV      = $(CV32E40P_DV)"
 	@echo "CORE_V_VERIF    = $(CORE_V_VERIF)"
 	@echo "TEST_FLAGS_MAKE = $(TEST_FLAGS_MAKE)"
 	@echo "TEST_FLAGS created by $(YAML2MAKE):"
@@ -205,7 +205,7 @@ endif
 
 verilate: CV_CORE_pkg $(TBSRC_VERI) $(TBSRC_PKG)
 	@echo "$(BANNER)"
-	@echo "* Compiling CORE TB and CV32E20 with Verilator"
+	@echo "* Compiling CORE TB and CV32E40P with Verilator"
 	@echo "$(BANNER)"
 	$(VERILATOR) --main --binary --cc --sv --exe --build \
 		$(VERI_TRACE) \
@@ -244,7 +244,7 @@ verilator-clean:
 
 clone_rtl:
 	@echo "$(BANNER)"
-	@echo "* Cloning CV32E20 RTL model"
+	@echo "* Cloning CV32E40P RTL model"
 	@echo "$(BANNER)"
 	$(CLONE_CV_CORE_CMD)
 
@@ -255,13 +255,13 @@ clean-sim-results:
 
 # clean up toolchain generated files
 clean-test-programs:
-	find $(CV32E20_DV)/tests/programs -name "*.o"       -exec rm {} \;
-	find $(CV32E20_DV)/tests/programs -name "*.hex"     -exec rm {} \;
-	find $(CV32E20_DV)/tests/programs -name "*.elf"     -exec rm {} \;
-	find $(CV32E20_DV)/tests/programs -name "*.map"     -exec rm {} \;
-	find $(CV32E20_DV)/tests/programs -name "*.readelf" -exec rm {} \;
-	find $(CV32E20_DV)/tests/programs -name "*.objdump" -exec rm {} \;
-	find $(CV32E20_DV)/tests/programs -name "corev_*.S" -exec rm {} \;
+	find $(CV32E40P_DV)/tests/programs -name "*.o"       -exec rm {} \;
+	find $(CV32E40P_DV)/tests/programs -name "*.hex"     -exec rm {} \;
+	find $(CV32E40P_DV)/tests/programs -name "*.elf"     -exec rm {} \;
+	find $(CV32E40P_DV)/tests/programs -name "*.map"     -exec rm {} \;
+	find $(CV32E40P_DV)/tests/programs -name "*.readelf" -exec rm {} \;
+	find $(CV32E40P_DV)/tests/programs -name "*.objdump" -exec rm {} \;
+	find $(CV32E40P_DV)/tests/programs -name "corev_*.S" -exec rm {} \;
 
 clean-all-targets: clean-dist clean-cloned clean-sim-results clean-test-programs verilator-clean
 

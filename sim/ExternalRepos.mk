@@ -42,6 +42,7 @@ COMPLIANCE_BRANCH ?= master
 COMPLIANCE_HASH   ?= c21a2e86afa3f7d4292a2dd26b759f3f29cde497
 
 # ACT4 (RISC-V Architectural Certification Tests)
+# Branch: test/fix/imcf-f-supported — excludes privileged suites via EXCLUDE_EXTENSIONS
 ACT4_REPO   ?= https://github.com/karabambus/riscv-arch-test
-ACT4_BRANCH ?= test/flen-fix-full-suite
-ACT4_HASH   ?= head
+ACT4_BRANCH ?= test/fix/imcf-f-supported
+ACT4_HASH   ?= 23629b64d71bba132f8eba5a6044ebfbadb275ea

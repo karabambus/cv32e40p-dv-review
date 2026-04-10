@@ -287,19 +287,25 @@ CV_CORE_CONFIG ?= rv32imc
 ifeq ($(CV_CORE_CONFIG),rv32imcf)
   CERT_FPU_EN      = 1
   CERT_CONFIG_NAME = cv32e40p_v1.8.3_rv32imcf
-  CERT_EXTENSIONS  = I,M,C,F,Zca,Zcf,Zicsr,Zifencei,Zicntr
   CERT_V100_FLAG   =
 else ifeq ($(CV_CORE_CONFIG),v1.0.0_rv32imc)
   CERT_FPU_EN      = 0
   CERT_CONFIG_NAME = cv32e40p_v1.0.0_rv32imc
-  CERT_EXTENSIONS  = I,M,C,Zca,Zicsr,Zifencei,Zicntr
   CERT_V100_FLAG   = +define+CV32E40P_V100
 else
   CERT_FPU_EN      = 0
   CERT_CONFIG_NAME = cv32e40p_v1.8.3_rv32imc
-  CERT_EXTENSIONS  = I,M,C,Zca,Zicsr,Zifencei,Zicntr
   CERT_V100_FLAG   =
 endif
+
+# Privileged suites excluded across all configs:
+#   ExceptionsSm — uses RVMODEL_ACCESS_FAULT_ADDRESS; cv32e40p has no access faults
+#                  (blocked by riscv/riscv-arch-test#1192)
+#   InterruptsSm — uses RVMODEL_MTIME_ADDRESS/RVMODEL_MTIMECMP_ADDRESS; platform-level,
+#                  not present in core testbench (blocked by riscv/riscv-arch-test#934)
+#   ExceptionsZc — uses RVMODEL_ACCESS_FAULT_ADDRESS (blocked by riscv/riscv-arch-test#1192)
+#   Sm           — uses RVMODEL_MTIME_ADDRESS (blocked by riscv/riscv-arch-test#934)
+CERT_EXCLUDE_EXTENSIONS = ExceptionsSm,InterruptsSm,ExceptionsZc,Sm
 
 ###############################################################################
 # certification test-program directories
@@ -315,7 +321,7 @@ gen: $(ACT4_PKG)
 	@$(MAKE) -C $(ACT4_PKG) clean
 	@echo "* Generating ACT4.0 tests..."
 	@$(MAKE) -C $(ACT4_PKG) \
-		EXTENSIONS=$(CERT_EXTENSIONS) \
+		EXCLUDE_EXTENSIONS=$(CERT_EXCLUDE_EXTENSIONS) \
 		CONFIG_FILES=config/cores/cv32e40p/$(CERT_CONFIG_NAME)/test_config.yaml
 	@echo "* Tests generated in: $(certification_PROGRAM_PATH)"
 
@@ -330,18 +336,20 @@ certify: verilate
 	SUMMARY="$(VERI_LOG_DIR)/certification_summary.txt"; \
 	echo "RESULT  TEST" > "$$SUMMARY"; \
 	echo "------  ----" >> "$$SUMMARY"; \
-	ROOT="$(certification_PROGRAM_PATH)/rv32i"; \
-	ELFS="$$(find -L "$$ROOT" \( -type f -o -type l \) -a \( -iname '*.elf' -o -iname '*.elf32' \) 2>/dev/null | sort)"; \
+	UNPRIV_ROOT="$(certification_PROGRAM_PATH)/rv32i"; \
+	PRIV_ROOT="$(certification_PROGRAM_PATH)/priv"; \
+	ELFS="$$(find -L "$$UNPRIV_ROOT" "$$PRIV_ROOT" \( -type f -o -type l \) -a \( -iname '*.elf' -o -iname '*.elf32' \) 2>/dev/null | sort)"; \
 	if [ -z "$$ELFS" ]; then \
-	  echo "No .elf files found under $$ROOT"; \
+	  echo "No .elf files found under $$UNPRIV_ROOT or $$PRIV_ROOT"; \
 	  echo "Debug listing (2 levels):"; \
-	  find "$$ROOT" -maxdepth 2 -print || true; \
+	  find "$$UNPRIV_ROOT" "$$PRIV_ROOT" -maxdepth 2 -print || true; \
 	  exit 2; \
 	fi; \
+	ELF_BASE="$(certification_PROGRAM_PATH)"; \
 	PASS=0; FAIL=0; TOTAL=0; \
 	for ELF in $$ELFS; do \
 	  TOTAL=$$((TOTAL+1)); \
-	  REL="$${ELF#$$ROOT/}"; \
+	  REL="$${ELF#$$ELF_BASE/}"; \
 	  BASE="$${ELF%.*}"; \
 	  HEX="$$BASE.hex"; \
 	  LOG="$(VERI_LOG_DIR)/$${REL%.*}.log"; \
@@ -435,18 +443,20 @@ certify-vsim:
 	SUMMARY="$(VSIM_LOG_DIR)/certification_summary.txt"; \
 	echo "RESULT  TEST" > "$$SUMMARY"; \
 	echo "------  ----" >> "$$SUMMARY"; \
-	ROOT="$(certification_PROGRAM_PATH)/rv32i$(if $(FILTER),/$(FILTER),)"; \
-	ELFS="$$(find -L "$$ROOT" \( -type f -o -type l \) -a \( -iname '*.elf' -o -iname '*.elf32' \) 2>/dev/null | sort)"; \
+	UNPRIV_ROOT="$(certification_PROGRAM_PATH)/rv32i$(if $(FILTER),/$(FILTER),)"; \
+	PRIV_ROOT="$(certification_PROGRAM_PATH)/priv$(if $(FILTER),/$(FILTER),)"; \
+	ELFS="$$(find -L "$$UNPRIV_ROOT" "$$PRIV_ROOT" \( -type f -o -type l \) -a \( -iname '*.elf' -o -iname '*.elf32' \) 2>/dev/null | sort)"; \
 	if [ -z "$$ELFS" ]; then \
-	  echo "No .elf files found under $$ROOT"; \
+	  echo "No .elf files found under $$UNPRIV_ROOT or $$PRIV_ROOT"; \
 	  echo "Debug listing (2 levels):"; \
-	  find "$$ROOT" -maxdepth 2 -print || true; \
+	  find "$$UNPRIV_ROOT" "$$PRIV_ROOT" -maxdepth 2 -print || true; \
 	  exit 2; \
 	fi; \
+	ELF_BASE="$(certification_PROGRAM_PATH)"; \
 	PASS=0; FAIL=0; TOTAL=0; \
 	while IFS= read -r ELF; do \
 	  TOTAL=$$((TOTAL+1)); \
-	  REL="$${ELF#$$ROOT/}"; \
+	  REL="$${ELF#$$ELF_BASE/}"; \
 	  BASE="$${ELF%.*}"; \
 	  HEX="$$BASE.hex"; \
 	  LOG="$(VSIM_LOG_DIR)/$${REL%.*}.log"; \

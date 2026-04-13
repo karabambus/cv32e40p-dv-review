@@ -25,12 +25,10 @@ module tb_top
       parameter FPU_EN            = 0
      );
 
-    // boot_addr can be overridden at runtime via +boot_addr=<hex> plusarg
+    // boot_addr: set from +boot_addr=<hex> plusarg, or extracted from ELF header
+    // when +elf_file= is used. Defaults to 0x100 if neither is provided.
     logic [31:0] boot_addr;
-    initial begin
-        if (!$value$plusargs("boot_addr=%h", boot_addr))
-            boot_addr = 32'h100;
-    end
+    initial boot_addr = 32'h100;
 
     const int CLK_PHASE_HI        = 5;
     const int CLK_PHASE_LO        = 5;
@@ -85,17 +83,55 @@ module tb_top
         end
     end
 
-    // we either load the provided firmware or execute a small test program that
-    // doesn't do more than an infinite loop with some I/O
+    // Load the test program into RAM.
+    //
+    // +elf_file=<path>      Read ELF32 header to extract the entry point (boot_addr),
+    //                       derive the pre-generated <base>.hex path, load via $readmemh.
+    //                       Requires "make gen" to pre-generate the .hex files.
+    //
+    // +test_program=<path>  Legacy: load a Verilog hex file directly.
+    //                       boot_addr must be supplied via +boot_addr=<hex>.
     initial begin: load_prog
-        automatic string test_program;
+        automatic string  test_program;
+        automatic string  elf_file;
+        automatic string  hex_file;
+        automatic logic [7:0] ehdr[0:51];  // ELF32 header (52 bytes)
+        automatic integer     elf_fd;
+        automatic int         last_dot;
 
-        if($value$plusargs("test_program=%s", test_program)) begin
-            if($test$plusargs("verbose"))
+        if ($value$plusargs("elf_file=%s", elf_file)) begin
+            // Extract entry point: e_entry is at byte offset 24, little-endian
+            elf_fd = $fopen(elf_file, "rb");
+            if (elf_fd == 0)
+                $fatal(1, "[%s] Cannot open ELF file: %s", id, elf_file);
+            void'($fread(ehdr, elf_fd));
+            $fclose(elf_fd);
+            boot_addr = {ehdr[27], ehdr[26], ehdr[25], ehdr[24]};
+
+            // Derive <base>.hex by stripping the last file extension and appending .hex
+            last_dot = -1;
+            for (int i = elf_file.len() - 1; i >= 0; i--) begin
+                if (elf_file.getc(i) == 8'h2e && last_dot == -1)
+                    last_dot = i;
+            end
+            hex_file = (last_dot >= 0) ? {elf_file.substr(0, last_dot - 1), ".hex"}
+                                       : {elf_file, ".hex"};
+
+            if ($test$plusargs("verbose"))
+                $display("[%s] @ t=%0t: loading ELF %0s, boot_addr=0x%08h, hex=%0s",
+                         id, $time, elf_file, boot_addr, hex_file);
+            $readmemh(hex_file, mm_ram_i.dp_ram_inst.mem);
+
+        end else if ($value$plusargs("test_program=%s", test_program)) begin
+            if (!$value$plusargs("boot_addr=%h", boot_addr))
+                boot_addr = 32'h100;
+            if ($test$plusargs("verbose"))
                 $display("[%s] @ t=%0t: loading test-program %0s", id, $time, test_program);
             $readmemh(test_program, mm_ram_i.dp_ram_inst.mem);
+
         end else begin
-            $display("[%s] @ t=%0t: No test_program specified... terminating.", id, $time);
+            $display("[%s] @ t=%0t: No +elf_file or +test_program specified... terminating.",
+                     id, $time);
             end_of_sim();
         end
     end

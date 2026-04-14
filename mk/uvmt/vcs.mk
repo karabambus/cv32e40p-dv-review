@@ -152,7 +152,7 @@ VCS_RUN_FLAGS ?=
 
 ifeq ($(call IS_YES,$(USE_ISS)),YES)
     ifeq ($(ISS),IMPERAS)
-        VCS_FILE_LIST += -f $(DV_UVMT_PATH)/imperas_iss.flist
+        VCS_FILE_LIST += -f $(DV_UVMT_PATH)/imperas_dv.flist
     endif
     ifeq ($(ISS),SPIKE)
         VCS_RUN_FLAGS += -sv_lib $(SPIKE_YAML_LIB)

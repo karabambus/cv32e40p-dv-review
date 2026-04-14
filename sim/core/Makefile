@@ -286,20 +286,26 @@ CV_CORE_CONFIG ?= rv32imc
 
 ifeq ($(CV_CORE_CONFIG),rv32imcf)
   CERT_FPU_EN      = 1
-  CERT_CONFIG_NAME = cv32e40p_v1.8.3_rv32imcf
+  CERT_CONFIG_NAME = cv32e40p-v2-rv32imcf
   CERT_EXTENSIONS  = I,M,C,F,Zca,Zcf,Zicsr,Zifencei,Zicntr
   CERT_V100_FLAG   =
 else ifeq ($(CV_CORE_CONFIG),v1.0.0_rv32imc)
   CERT_FPU_EN      = 0
-  CERT_CONFIG_NAME = cv32e40p_v1.0.0_rv32imc
+  CERT_CONFIG_NAME = cv32e40p-v1-rv32imc
   CERT_EXTENSIONS  = I,M,C,Zca,Zicsr,Zifencei,Zicntr
   CERT_V100_FLAG   = +define+CV32E40P_V100
 else
   CERT_FPU_EN      = 0
-  CERT_CONFIG_NAME = cv32e40p_v1.8.3_rv32imc
+  CERT_CONFIG_NAME = cv32e40p-v2-rv32imc
   CERT_EXTENSIONS  = I,M,C,Zca,Zicsr,Zifencei,Zicntr
   CERT_V100_FLAG   =
 endif
+
+###############################################################################
+# Set CERT_PRIV=0 to restrict the certify scan to unprivileged ELFs only
+# (elfs/rv32i/ subtree). Default (1) scans all ELFs under elfs/, which
+# includes privileged tests when generated.
+CERT_PRIV ?= 1
 
 ###############################################################################
 # certification test-program directories
@@ -316,8 +322,17 @@ gen: $(ACT4_PKG)
 	@echo "* Generating ACT4.0 tests..."
 	@$(MAKE) -C $(ACT4_PKG) \
 		EXTENSIONS=$(CERT_EXTENSIONS) \
-		CONFIG_FILES=config/cores/cv32e40p/$(CERT_CONFIG_NAME)/test_config.yaml
+		CONFIG_FILES=config/cores/cve4/$(CERT_CONFIG_NAME)/test_config.yaml
 	@echo "* Tests generated in: $(certification_PROGRAM_PATH)"
+	@echo "* Pre-generating .hex files alongside ELFs..."
+	@find "$(certification_PROGRAM_PATH)" \
+		\( -iname '*.elf' -o -iname '*.elf32' \) | \
+		while IFS= read -r elf; do \
+		  hex="$${elf%.*}.hex"; \
+		  if [ ! -f "$$hex" ] || [ "$$elf" -nt "$$hex" ]; then \
+		    $(CV_SW_PREFIX)objcopy -O verilog "$$elf" "$$hex"; \
+		  fi; \
+		done
 
 .PHONY: certify
 certify: TEST = certification_$(CV_CORE_CONFIG)
@@ -330,7 +345,11 @@ certify: verilate
 	SUMMARY="$(VERI_LOG_DIR)/certification_summary.txt"; \
 	echo "RESULT  TEST" > "$$SUMMARY"; \
 	echo "------  ----" >> "$$SUMMARY"; \
-	ROOT="$(certification_PROGRAM_PATH)/rv32i"; \
+	if [ "$(CERT_PRIV)" = "1" ]; then \
+	  ROOT="$(certification_PROGRAM_PATH)"; \
+	else \
+	  ROOT="$(certification_PROGRAM_PATH)/rv32i"; \
+	fi; \
 	ELFS="$$(find -L "$$ROOT" \( -type f -o -type l \) -a \( -iname '*.elf' -o -iname '*.elf32' \) 2>/dev/null | sort)"; \
 	if [ -z "$$ELFS" ]; then \
 	  echo "No .elf files found under $$ROOT"; \
@@ -342,24 +361,17 @@ certify: verilate
 	for ELF in $$ELFS; do \
 	  TOTAL=$$((TOTAL+1)); \
 	  REL="$${ELF#$$ROOT/}"; \
-	  BASE="$${ELF%.*}"; \
-	  HEX="$$BASE.hex"; \
 	  LOG="$(VERI_LOG_DIR)/$${REL%.*}.log"; \
 	  mkdir -p "$$(dirname "$$LOG")"; \
-	  if [ ! -f "$$HEX" ] || [ "$$ELF" -nt "$$HEX" ]; then \
-	    $(CV_SW_PREFIX)objcopy -O verilog "$$ELF" "$$HEX"; \
-	  fi; \
-	  ENTRY=$$($(CV_SW_PREFIX)readelf -h "$$ELF" | awk '/Entry point/{print $$NF}'); \
 	  set +e; \
 	  "$(SIM_TEST_RESULTS)/verilator_executable" \
 	    $(VERI_RUN_FLAGS) \
 	    $(VERI_WAVE_CMD) \
-	    "+test_program=$$HEX" \
-	    "+boot_addr=$$ENTRY" \
+	    "+elf_file=$$ELF" \
 	    > "$$LOG" 2>&1; \
 	  RC=$$?; \
 	  set -e; \
-	  if [ $$RC -eq 0 ] && grep -q "ALL TESTS PASSED" "$$LOG"; then \
+	  if [ $$RC -eq 0 ] && grep -q "RVCP-SUMMARY: TEST PASSED" "$$LOG"; then \
 	    echo "PASS    $$REL" | tee -a "$$SUMMARY"; \
 	    PASS=$$((PASS+1)); \
 	  else \
@@ -435,7 +447,11 @@ certify-vsim:
 	SUMMARY="$(VSIM_LOG_DIR)/certification_summary.txt"; \
 	echo "RESULT  TEST" > "$$SUMMARY"; \
 	echo "------  ----" >> "$$SUMMARY"; \
-	ROOT="$(certification_PROGRAM_PATH)/rv32i$(if $(FILTER),/$(FILTER),)"; \
+	if [ "$(CERT_PRIV)" = "1" ]; then \
+	  ROOT="$(certification_PROGRAM_PATH)$(if $(FILTER),/$(FILTER),)"; \
+	else \
+	  ROOT="$(certification_PROGRAM_PATH)/rv32i$(if $(FILTER),/$(FILTER),)"; \
+	fi; \
 	ELFS="$$(find -L "$$ROOT" \( -type f -o -type l \) -a \( -iname '*.elf' -o -iname '*.elf32' \) 2>/dev/null | sort)"; \
 	if [ -z "$$ELFS" ]; then \
 	  echo "No .elf files found under $$ROOT"; \
@@ -447,24 +463,16 @@ certify-vsim:
 	while IFS= read -r ELF; do \
 	  TOTAL=$$((TOTAL+1)); \
 	  REL="$${ELF#$$ROOT/}"; \
-	  BASE="$${ELF%.*}"; \
-	  HEX="$$BASE.hex"; \
 	  LOG="$(VSIM_LOG_DIR)/$${REL%.*}.log"; \
 	  mkdir -p "$$(dirname "$$LOG")"; \
-	  if [ ! -f "$$HEX" ] || [ "$$ELF" -nt "$$HEX" ]; then \
-	    $(CV_SW_PREFIX)objcopy -O verilog "$$ELF" "$$HEX"; \
-	  fi; \
-	  ENTRY=$$($(CV_SW_PREFIX)readelf -h "$$ELF" | awk '/Entry point/{print $$NF}'); \
-	  ENTRY_HEX=$${ENTRY#0x}; \
 	  set +e; \
 	  $(VSIM) $(VSIM_FLAGS) \
 	    $(VSIM_OPT_TOP) \
-	    "+test_program=$$HEX" \
-	    "+boot_addr=$$ENTRY_HEX" \
+	    "+elf_file=$$ELF" \
 	    > "$$LOG" 2>&1; \
 	  RC=$$?; \
 	  set -e; \
-	  if [ $$RC -eq 0 ] && grep -q "ALL TESTS PASSED" "$$LOG"; then \
+	  if [ $$RC -eq 0 ] && grep -q "RVCP-SUMMARY: TEST PASSED" "$$LOG"; then \
 	    echo "PASS    $$REL" | tee -a "$$SUMMARY"; \
 	    PASS=$$((PASS+1)); \
 	  else \

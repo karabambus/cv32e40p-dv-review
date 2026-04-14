@@ -7,5 +7,5 @@ and these stubs are implemented to make it easier to use (or not) ImperasDV at c
 The stubs are automatically compiled by the Makefiles as needed.
 To build them seperately:
 ```
-% make rvvi_stub CV_CORE=cv32e20
+% make rvvi_stub CV_CORE=cv32e40p
 ```

@@ -75,7 +75,7 @@ VLOG_DEBUG_FLAGS ?= -dbg
 VLOG_FLAGS += $(DPILIB_VLOG_OPT)
 
 # Add the ISS to compilation
-VLOG_FILE_LIST += -f $(DV_UVMT_PATH)/imperas_iss.flist
+VLOG_FILE_LIST += -f $(DV_UVMT_PATH)/imperas_dv.flist
 VLOG_FLAGS += "+define+$(CV_CORE_UC)_TRACE_EXECUTION"
 VLOG_FLAGS += -dpilib
 

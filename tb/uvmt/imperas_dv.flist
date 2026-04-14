@@ -1,6 +1,5 @@
 //
-// Copyright 2022, 2024 Eclipse Foundation
-// SPDX-License-Identifier: Apache-2.0 WITH SHL-2.0
+// Copyright 2022 OpenHW Group
 //
 // Licensed under the Solderpad Hardware Licence, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,24 +14,20 @@
 // limitations under the License.
 //
 
-// Edit this file as per your specific usage (or not) of the Synopsys ImperasDV product.
-
+///////////////////////////////////////
 // ImperasDV
-// - The ImperasDV model is assumed to be installed in ${IMPERAS_HOME}, an
-//   installation directory that is external to this repo.
-
-//+incdir+${IMPERAS_HOME}
-//+incdir+${IMPERAS_HOME}/ImpProprietary/include/host
-//+incdir+${IMPERAS_HOME}/ImpProprietary/source/host/riscvISACOV/source
-//
-//-f ${IMPERAS_HOME}/ImpPublic/source/host/rvvi/rvvi.f
-//-f ${IMPERAS_HOME}/ImpProprietary/source/host/idv/idv.f
+// - The traditional location of the Imperas reference model is under vendor_lib in this repo.
+// - The proposed new location of the Imperas reference model is in an installation directory
+//   that is external to this repo.
 //
 
-// RVVI "stubs" for use when the environment does not support ImperasDV.
-${RVVI_HOME}/source/host/rvvi/rvviApiPkg.sv
-${RVVI_HOME}/source/host/rvvi/rvviTrace.sv
++incdir+${IMPERAS_HOME}
++incdir+${IMPERAS_HOME}/ImpProprietary/include/host
++incdir+${IMPERAS_HOME}/ImpProprietary/source/host/riscvISACOV/source
+
+${TBSRC_HOME}/uvmt/uvmt_cv32e40p_imperas_riscv_coverage_config.svh
+-f ${IMPERAS_HOME}/ImpPublic/source/host/rvvi/rvvi.f
+-f ${IMPERAS_HOME}/ImpProprietary/source/host/idv/idv.f
 
 // ImperasDV test bench wrapper
 ${TBSRC_HOME}/uvmt/uvmt_cv32e40p_imperas_dv_wrap.sv
-

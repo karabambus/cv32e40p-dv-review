@@ -54,7 +54,7 @@ CFG_PATHS = (
     #DEFAULT_CORE=os.environ['CV_CORE']
 #except KeyError:
     #DEFAULT_CORE=None
-DEFAULT_CORE='cv32e20'
+DEFAULT_CORE='cv32e40p'
 
 if (sys.version_info < (3,0,0)):
     print ('Requires python 3')

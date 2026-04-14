@@ -39,7 +39,7 @@ module tb_top_verilator
             if($test$plusargs("verbose"))
                 $display("[TESTBENCH] %t: loading firmware %0s ...",
                          $time, firmware);
-            $readmemh(firmware, cv32e40p_core_tb_wrapper_i.ram_i.dp_ram_i.mem);
+            $readmemh(firmware, cv32e40p_core_tb_wrapper_i.ram_i.dp_ram_inst.mem);
 
         end else begin
             $display("No firmware specified");

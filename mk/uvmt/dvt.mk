@@ -34,7 +34,7 @@ else
 ifeq ($(SIMULATOR), vsim)
 	DVT_BUILD_FILE_CONTENT="+dvt_init+questa.vlog\n-work $(VWORK) $(VLOG_FLAGS)	+incdir+$(DV_UVME_PATH) +incdir+$(DV_UVMT_PATH) +incdir+$(UVM_HOME) $(UVM_HOME)/uvm_pkg.sv -f $(CV_CORE_MANIFEST) $(VLOG_FILE_LIST) $(TBSRC_PKG) -top $(RTLSRC_VLOG_TB_TOP)"
 else
-	DVT_BUILD_FILE_CONTENT="+dvt_init+dvt\n-uvm\n+define+CV32E40P_ASSERT_ON\n+define+ISS+CV32E40P_TRACE_EXECUTION\n+incdir+$(DV_UVME_PATH)\n+incdir+$(DV_UVMT_PATH)\n-f $(CV_CORE_MANIFEST)\n-f $(DV_UVMT_PATH)/uvmt_$(CV_CORE_LC).flist\n-f $(DV_UVMT_PATH)/imperas_iss.flist\n-top $(RTLSRC_VLOG_TB_TOP)"
+	DVT_BUILD_FILE_CONTENT="+dvt_init+dvt\n-uvm\n+define+CV32E40P_ASSERT_ON\n+define+ISS+CV32E40P_TRACE_EXECUTION\n+incdir+$(DV_UVME_PATH)\n+incdir+$(DV_UVMT_PATH)\n-f $(CV_CORE_MANIFEST)\n-f $(DV_UVMT_PATH)/uvmt_$(CV_CORE_LC).flist\n-f $(DV_UVMT_PATH)/imperas_dv.flist\n-top $(RTLSRC_VLOG_TB_TOP)"
 endif
 endif
 endif

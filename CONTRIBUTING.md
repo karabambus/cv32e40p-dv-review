@@ -4,7 +4,7 @@ SPDX-License-Identifier: Apache-2.0 WITH SHL-2.1
 -->
 
 # Contributing
-New Contributors are always welcome. Start by having a look at the **README**, and review open [Issues](https://github.com/openhwgroup/cv32e20-dv/issues) with a "Good First Issue" label.
+New Contributors are always welcome. Start by having a look at the **README**, and review open [Issues](https://github.com/openhwgroup/cv32e40p-dv/issues) with a "Good First Issue" label.
 
 ## Contributor Agreement
 Most Contributors are [members](https://www.openhwgroup.org/membership/) of the
@@ -21,7 +21,7 @@ All pull-requests to OpenHW Foundation git repositories should be signed-off usi
 `--signoff` (or `-s`) option to the git commit command (see below), although this is no longer strictly necessary.
 
 ## Licensing
-CV32E20-DV is an open source project, using permissive licensing.
+CV32E40P-DV is an open source project, using permissive licensing.
 Our preferred license is [Solderpad](https://github.com/openhwgroup/core-v-verif/blob/master/LICENSE.md), and we accept most well known permissive licenses.
 If you are submitting a new file that does not yet have a copyright header please add the following [SPDX](https://spdx.dev/) header:
 ```
@@ -34,8 +34,8 @@ In the above header, "organization" should either be your employer, your institu
 - Otherwise, you may assign the copyright to yourself.  You may use your full name or email address as you see fit.
 
 ## The Mechanics
-1. [Fork](https://help.github.com/articles/fork-a-repo/) the [cv32e20-dv](https://github.com/openhwgroup/cv32e20-dv) repository
-2. Clone repository: `git clone https://github.com/[your_github_username]/cv32e20-dv`
+1. [Fork](https://help.github.com/articles/fork-a-repo/) the [cv32e40p-dv](https://github.com/openhwgroup/cv32e40p-dv) repository
+2. Clone repository: `git clone https://github.com/[your_github_username]/cv32e40p-dv`
 3. Checkout the correct branch reflecting the nature of your contribution.  Nearly all contributions should target a _dev_ branch.
 4. Create your feature branch: `git checkout -b <my_branch>.`<br> Please uniquify your branch name.  See the [Git Cheats](https://github.com/openhwgroup/core-v-verif/blob/master/GitCheats.md) for a useful nominclature.
 5. Commit your changes: `git commit -m 'Add some feature' --signoff`

@@ -173,7 +173,7 @@ endif
 XRUN_UVM_MACROS_INC_FILE = $(DV_UVMT_PATH)/uvmt_$(CV_CORE_LC)_uvm_macros_inc.sv
 
 XRUN_FILE_LIST ?= -f $(DV_UVMT_PATH)/uvmt_$(CV_CORE_LC).flist
-XRUN_FILE_LIST += -f $(DV_UVMT_PATH)/imperas_iss.flist
+XRUN_FILE_LIST += -f $(DV_UVMT_PATH)/imperas_dv.flist
 XRUN_USER_COMPILE_ARGS += +define+$(CV_CORE_UC)_TRACE_EXECUTION
 XRUN_USER_COMPILE_ARGS += +define+UVM
 ifeq ($(call IS_YES,$(USE_ISS)),YES)

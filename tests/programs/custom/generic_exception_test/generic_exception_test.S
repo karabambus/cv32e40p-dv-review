@@ -49,7 +49,7 @@ test_fail_value:
 # main test
 main:
     li x15, 0x00001800
-    csrrw x0, mstatus, x15  # redundant in cv32e20: hardwired PoR value
+    csrrw x0, mstatus, x15  # redundant in cv32e40p: hardwired PoR value
     li x0, 0xf21ee7dc
     li x1, 0x80000000
     li x3, 0xccda4374
@@ -331,7 +331,7 @@ added_by_mike:
 #
     .word(0x4b724b57) # PULP VECOP instruction - will only cause an IIE if XPULP=0
 ###############################################################################
-# Target specific code cov holes in the cv32e20_decoder.
+# Target specific code cov holes in the cv32e40p_decoder.
 #
 # For OPCODE_SYSTEM (instr_rdata[6:0]=='h73), instr_rdata[31:20] must be one of:
 #     12'h000 (ecall), 12'h001 (ebreak),

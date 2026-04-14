@@ -1,12 +1,12 @@
-# CORE_TB: Verification Components for the CV32E cores
+# TB_RISCV: VERIFICATION ENVIRONMENT FOR THE PULP CORES
 
-Files and directories found here are adopted from the testbench for the PULP cores.
-They are now known as the `core` testbench of the CV32E** cores.
+Files and directories foundn here are adopted from the testbench for the PULP
+cores.   They are now known as the `core` testbench of the CV32E40P testbench.
+Note that some information in this file may be out of date.
 
 ## Description
 
-The top file of this repository is called `tb_riscv_core.sv`.
-The input and output signals of this unit are the same as RI5CY.
+The top file of this repository is called `tb_riscv_core.sv`. The input and output signals of this unit are the same as RI5CY.
 It includes the following components:
   - The core instance
   - The instance of the perturbation module, that is described in the file `riscv_perturbation.sv`.

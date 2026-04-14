@@ -23,7 +23,7 @@
 ** Recomended method of invoking the gen_csr_test.py script is to run it the same
 ** directory as this file with the following command line:
 **
-**  python3 gen_csr_test.py --csr_file ../../../../env/corev-dv/cv32e20_csr_template.yaml
+**  python3 gen_csr_test.py --csr_file ../../../../env/corev-dv/cv32e40p_csr_template.yaml
 **
 *******************************************************************************
 */

@@ -286,17 +286,17 @@ CV_CORE_CONFIG ?= rv32imc
 
 ifeq ($(CV_CORE_CONFIG),rv32imcf)
   CERT_FPU_EN      = 1
-  CERT_CONFIG_NAME = cv32e40p_v1.8.3_rv32imcf
+  CERT_CONFIG_NAME = cv32e40p-v2-rv32imcf
   CERT_EXTENSIONS  = I,M,C,F,Zca,Zcf,Zicsr,Zifencei,Zicntr
   CERT_V100_FLAG   =
 else ifeq ($(CV_CORE_CONFIG),v1.0.0_rv32imc)
   CERT_FPU_EN      = 0
-  CERT_CONFIG_NAME = cv32e40p_v1.0.0_rv32imc
+  CERT_CONFIG_NAME = cv32e40p-v1-rv32imc
   CERT_EXTENSIONS  = I,M,C,Zca,Zicsr,Zifencei,Zicntr
   CERT_V100_FLAG   = +define+CV32E40P_V100
 else
   CERT_FPU_EN      = 0
-  CERT_CONFIG_NAME = cv32e40p_v1.8.3_rv32imc
+  CERT_CONFIG_NAME = cv32e40p-v2-rv32imc
   CERT_EXTENSIONS  = I,M,C,Zca,Zicsr,Zifencei,Zicntr
   CERT_V100_FLAG   =
 endif
@@ -322,7 +322,7 @@ gen: $(ACT4_PKG)
 	@echo "* Generating ACT4.0 tests..."
 	@$(MAKE) -C $(ACT4_PKG) \
 		EXTENSIONS=$(CERT_EXTENSIONS) \
-		CONFIG_FILES=config/cores/cv32e40p/$(CERT_CONFIG_NAME)/test_config.yaml
+		CONFIG_FILES=config/cores/cve4/$(CERT_CONFIG_NAME)/test_config.yaml
 	@echo "* Tests generated in: $(certification_PROGRAM_PATH)"
 	@echo "* Pre-generating .hex files alongside ELFs..."
 	@find "$(certification_PROGRAM_PATH)" \

@@ -1,0 +1,9 @@
+name: smf_pipeline_hazard_demo
+uvm_test: uvmt_cv32e40p_firmware_test_c
+default_cflags: >
+    -O0 -g -static -mabi=ilp32 -march=rv32imcf_zicsr_zifencei
+description: >
+    Demonstrates the cv32e40p mstatus.FS pipeline RAW hazard after flw.
+    Test 1: flw + immediate csrrs mstatus  -> FS=Initial (pipeline hazard: update not yet visible)
+    Test 2: flw + 1 NOP + csrrs mstatus   -> FS=Dirty  (1 cycle is enough to expose the update)
+    Test 3: fadd.s + immediate csrrs       -> FS=Dirty  (APU path has no hazard)

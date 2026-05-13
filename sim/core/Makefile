@@ -288,17 +288,17 @@ ifeq ($(CV_CORE_CONFIG),rv32imcf)
   CERT_FPU_EN      = 1
   CERT_CONFIG_NAME = cv32e40p-v2-rv32imcf
   CERT_V100_FLAG   =
-  CERT_EXCLUDE_EXTENSIONS ?= Sm,InterruptsSm,ExceptionsSm,ExceptionsZc,SmF,ExceptionsF
+  CERT_EXCLUDE_EXTENSIONS ?= Sm,InterruptsSm
 else ifeq ($(CV_CORE_CONFIG),v1.0.0_rv32imc)
   CERT_FPU_EN      = 0
   CERT_CONFIG_NAME = cv32e40p-v1-rv32imc
   CERT_V100_FLAG   = +define+CV32E40P_V100
-  CERT_EXCLUDE_EXTENSIONS ?= Sm,InterruptsSm,ExceptionsSm,ExceptionsZc
+  CERT_EXCLUDE_EXTENSIONS ?= Sm,InterruptsSm
 else
   CERT_FPU_EN      = 0
   CERT_CONFIG_NAME = cv32e40p-v2-rv32imc
   CERT_V100_FLAG   =
-  CERT_EXCLUDE_EXTENSIONS ?= Sm,InterruptsSm,ExceptionsSm,ExceptionsZc
+  CERT_EXCLUDE_EXTENSIONS ?= Sm,InterruptsSm
 endif
 
 ###############################################################################

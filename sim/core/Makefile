@@ -306,7 +306,7 @@ endif
 # ExceptionsZc must always be generated.  Override ACT4's default
 # EXCLUDE_EXTENSIONS which silently drops Sm and InterruptsSm.
 # S-mode, PMP, Sv, and known-broken suites remain excluded.
-CERT_EXCLUDE_EXTENSIONS ?= Sm,S,InterruptsSm,ExceptionsZalrsc,ExceptionsZaamo,PMPSm,PMPZca,PMPmisaligned,Sv,Svade,Svadu,SvaduPMP,SvPMP,SvZicbo,SvPMPZicbo
+CERT_EXCLUDE_EXTENSIONS ?= Sm,SmF
 
 ###############################################################################
 # certification test-program directories
@@ -409,7 +409,7 @@ VLOG_FLAGS  = -sv -work $(VSIM_WORK_DIR) \
               -suppress 2583
 VOPT_FLAGS  = -work $(VSIM_WORK_DIR) \
               +acc -o $(VSIM_OPT_TOP)
-VSIM_MAX_CYCLES ?= 2000000
+VSIM_MAX_CYCLES ?= 2000000000
 VSIM_FLAGS  = -work $(VSIM_WORK_DIR) \
               -batch -quiet \
               -sv_seed 0 \

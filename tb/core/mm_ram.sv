@@ -86,9 +86,6 @@ module mm_ram
     localparam int                        MMADDR_TIMERREG   = 32'h1500_0000;
     localparam int                        MMADDR_TIMERVAL   = 32'h1500_0004;
     localparam int                        MMADDR_DBG        = 32'h1500_0008;
-    localparam int                        MMADDR_RNDSTALL   = 16'h1600;
-    localparam int                        MMADDR_RNDNUM     = 32'h1500_1000;
-    localparam int                        MMADDR_TICKS      = 32'h1500_1004;
     // Sail-protocol simple_interrupt_generator v1.0 (sail-riscv doc).
     // base+0 = version (R: 0x00010000, W: ignored); base+4 = platform
     // (R: 0, W: bit31=set/clr, bit3=MSI, bit11=MEI [bit1=SSI, bit9=SEI ignored on M-only]).
@@ -96,6 +93,9 @@ module mm_ram
     localparam int                        MMADDR_SIG_PLATFORM = 32'h1500_0024;
     localparam logic [31:0]               SIG_VERSION_VAL     = 32'h0001_0000;
     localparam logic [31:0]               SIG_ALLOWED_MASK    = 32'h0000_0A0A; // bits 1,3,9,11
+    localparam int                        MMADDR_RNDSTALL   = 16'h1600;
+    localparam int                        MMADDR_RNDNUM     = 32'h1500_1000;
+    localparam int                        MMADDR_TICKS      = 32'h1500_1004;
     // CLINT-style machine timer at Sail's CLINT base 0x0200_0000 (matches
     // sail_macros.h / sail.json). 64-bit mtime/mtimecmp; MTIP = mtime>=mtimecmp.
     localparam int                        MMADDR_MTIMECMP   = 32'h0200_4000;
@@ -159,9 +159,22 @@ module mm_ram
     logic [IRQ_WIDTH-1:0]          timer_irq_mask_q;
     logic [31:0]                   timer_cnt_q;
     logic [IRQ_WIDTH-1:0]          irq_q;
+    // Sail simple_interrupt_generator platform-register state
+    logic [IRQ_WIDTH-1:0]          sig_platform_q;
+    logic                          sig_platform_we;
+    logic [31:0]                   sig_platform_wdata;
     logic                          timer_reg_valid;
     logic                          timer_val_valid;
     logic [31:0]                   timer_wdata;
+    // CLINT machine timer state
+    logic [63:0]                   mtime_q;
+    logic [63:0]                   mtimecmp_q;
+    logic                          mtime_we_lo, mtime_we_hi;
+    logic                          mtimecmp_we_lo, mtimecmp_we_hi;
+    logic [31:0]                   clint_wdata;
+    logic                          mtip;
+    logic [63:0]                   mtime_next;
+    logic [31:0]                   clint_rdata_d, clint_rdata_q;
 
             // cycle counting
     logic [31:0]                   cycle_count_q;
@@ -194,20 +207,6 @@ module mm_ram
 
     //random or monitor interrupt request
     logic                          rnd_irq = 1'b0;
-
-    // Sail simple_interrupt_generator platform-register state
-    logic [IRQ_WIDTH-1:0]          sig_platform_q;
-    logic                          sig_platform_we;
-    logic [31:0]                   sig_platform_wdata;
-    // CLINT machine timer state
-    logic [63:0]                   mtime_q;
-    logic [63:0]                   mtimecmp_q;
-    logic                          mtime_we_lo, mtime_we_hi;
-    logic                          mtimecmp_we_lo, mtimecmp_we_hi;
-    logic [31:0]                   clint_wdata;
-    logic                          mtip;
-    logic [63:0]                   mtime_next;
-    logic [31:0]                   clint_rdata_d, clint_rdata_q;
 
     // used by dump_signature methods
     string                         sig_file;
@@ -522,14 +521,14 @@ module mm_ram
          || data_addr_i == MMADDR_TIMERREG
          || data_addr_i == MMADDR_TIMERVAL
          || data_addr_i == MMADDR_DBG
+         || data_addr_i == MMADDR_SIG_VERSION
+         || data_addr_i == MMADDR_SIG_PLATFORM
          || data_addr_i == MMADDR_TESTSTATUS
          || data_addr_i == MMADDR_EXIT
          || data_addr_i == MMADDR_SIGBEGIN
          || data_addr_i == MMADDR_SIGEND
          || data_addr_i == MMADDR_SIGDUMP
          || data_addr_i == MMADDR_TICKS
-         || data_addr_i == MMADDR_SIG_VERSION
-         || data_addr_i == MMADDR_SIG_PLATFORM
          || data_addr_i == MMADDR_MTIMECMP
          || data_addr_i == MMADDR_MTIMECMPH
          || data_addr_i == MMADDR_MTIME

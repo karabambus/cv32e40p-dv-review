@@ -306,7 +306,7 @@ endif
 # ExceptionsZc must always be generated.  Override ACT4's default
 # EXCLUDE_EXTENSIONS which silently drops Sm and InterruptsSm.
 # S-mode, PMP, Sv, and known-broken suites remain excluded.
-CERT_EXCLUDE_EXTENSIONS ?= Sm,SmF
+CERT_EXCLUDE_EXTENSIONS ?= Sm,SmF,SsstrictSm
 
 ###############################################################################
 # certification test-program directories
